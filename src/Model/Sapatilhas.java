@@ -1,7 +1,8 @@
+package Model;
 
 import java.time.LocalDate;
 import java.time.Month;
-public class Sapatilhas extends Artigos{
+public class Sapatilhas extends Artigos {
     private float tamanho;
     private boolean atacadores;
     private String cor;
@@ -14,14 +15,16 @@ public class Sapatilhas extends Artigos{
 
     public  Sapatilhas(){
         super();
-        this.tamanho = 0.0;
+        this.tamanho = 0.0F;
         this.atacadores = true;
         this.cor = "";
-        this.dataLancamento = LocalDate.now;
-        this.tipos_sapatilhas = Tipo.REGULAR;
+        this.dataLancamento = LocalDate.now();
+        this.tipo_sapatilhas = Tipo.REGULAR;
     }
 
-    public Sapatilhas(float tamanho, boolean atacadores, String cor, LocalDate dataLancamento, Tipo tipo_sapatilhas) {
+    public Sapatilhas(String descricao, String marca, String cod, float preco_base, float desconto, int novo_usado,
+                      Estado estado, int num_donos,float tamanho, boolean atacadores, String cor, LocalDate dataLancamento,
+                      Tipo tipo_sapatilhas) {
         super(descricao, marca, cod, preco_base, desconto, novo_usado, estado, num_donos);
         this.tamanho = tamanho;
         this.atacadores = atacadores;
@@ -84,26 +87,27 @@ public class Sapatilhas extends Artigos{
         tsSapatilhas.append("Tamanho: ").append(this.tamanho).append("\n");
         tsSapatilhas.append("Atacadores: ").append(this.atacadores).append("\n");
         tsSapatilhas.append("Cor: ").append(this.cor).append("\n");
-        tsSapatilhas.append("Data de lançamento: ").append(this.dataLancamento).apppend("\n");
+        tsSapatilhas.append("Data de lançamento: ").append(this.dataLancamento).append("\n");
         tsSapatilhas.append("Tipo de sapatilha: ").append(this.tipo_sapatilhas).append("\n");
         return tsSapatilhas.toString();
     }
 
     public Sapatilhas clone() {
+        Sapatilhas clone = (Sapatilhas) super.clone();
         return new Sapatilhas(this);
     }
 
     public boolean equals(Object o) {
         if (!super.equals(o)) return false;
         if(this == o) return true;
-        if (o == null || this.getClass() != o.getClass()) return false;
+        if (this.getClass() != o.getClass()) return false;
 
         Artigos sapatilha = (Sapatilhas) o;
-        return this.tamanho == sapatilha.getTamanho() &&
-               this.atacadores == sapatilha.getAtacadores() &&
-               this.cor == sapatilha.getCor() &&
-               this.dataLancamento == sapatilha.getDataLancamento() &&
-               this.tipo_sapatilhas == sapatilha.getTipo();
+        return this.tamanho == ((Sapatilhas) o).getTamanho() &&
+               this.atacadores == ((Sapatilhas) o).getAtacadores() &&
+               this.cor == ((Sapatilhas) o).getCor() &&
+               this.dataLancamento == ((Sapatilhas) o).getDataLancamento() &&
+               this.tipo_sapatilhas == ((Sapatilhas) o).getTipo();
     }
 
     public float precoSapatilhas(){
@@ -125,7 +129,7 @@ public class Sapatilhas extends Artigos{
     }
 
     public float precoSapatilhasPremium(){
-        double pp = getPreco_base();
+        float pp = getPreco_base();
         if(tipo_sapatilhas == Tipo.PREMIUM){
             pp *= 1.25;
         }

@@ -1,3 +1,5 @@
+package Model;
+
 public class Artigos{
     private String descricao;
     private String marca;
@@ -17,10 +19,10 @@ public class Artigos{
         this.descricao = "";
         this.marca = "";
         this.cod = "";
-        this.preco_base = 0.0;
-        this.desconto = 0.0;
+        this.preco_base = 0.0F;
+        this.desconto = 0.0F;
         this.novo_usado = 1;
-        this.estado = Estado.quase_novo;
+        this.estado = Estado.QUASE_NOVO;
         this.num_donos = 0;
     }
 
