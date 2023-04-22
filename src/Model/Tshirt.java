@@ -62,7 +62,7 @@ public class Tshirt extends Artigos {
 
     public boolean equals(Object o){
         if(this == o) return true;
-        if(o == null || this.getClass() != o.getClass()) return false
+        if(o == null || this.getClass() != o.getClass()) return false;
 
         Artigos artigo = (Tshirt) o;
         return (this.t == ((Tshirt) o).getTamanho() &&
