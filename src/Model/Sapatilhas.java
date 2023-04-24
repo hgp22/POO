@@ -116,13 +116,13 @@ public class Sapatilhas extends Artigos {
 
          if(tamanho > 45 || this.getNovo_usado() == 0){
              if(this.getEstado() == Estado.MUITO_GASTO){
-                 pb = pb * (1 / donos) * 0.5;
+                 pb = (float)(pb * (1 / donos) * 0.5);
              }
              if(this.getEstado() == Estado.GASTO){
-                 pb = pb * (1 / donos) * 0.25;
+                 pb = (float)(pb * (1 / donos) * 0.25);
              }
              if(this.getEstado() == Estado.QUASE_NOVO){
-                 pb = pb * (1 / donos) * 0.1;
+                 pb = (float)(pb * (1 / donos) * 0.1);
              }
              return pb;
          } else return pb;
