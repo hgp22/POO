@@ -1,6 +1,8 @@
 package Model;
 
-public class Artigos{
+import java.io.Serializable;
+
+public class Artigos implements Serializable {
     private String descricao;
     private String marca;
     private String cod;
