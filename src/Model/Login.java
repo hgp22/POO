@@ -4,25 +4,25 @@ import java.io.Serializable;
 
 public class Login implements Serializable {
     private String password;
-    private String username;
+    private String email;
 
     public Login() {
-        this.username = "";
+        this.email = "";
         this.password = "";
     }
 
-    public Login(String username,String password) {
-        this.username = username;
+    public Login(String email,String password) {
+        this.email = email;
         this.password = password;
     }
 
     public Login(Login l) {
-        this.username = l.getUsername();
+        this.email = l.getEmail();
         this.password = l.getPassword();
     }
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
     public String getPassword() {
         return password;
@@ -33,8 +33,8 @@ public class Login implements Serializable {
         this.password = password;
     }
 
-    public void setNome(String username) {
-        this.username = username;
+    public void setNome(String email) {
+        this.email = email;
     }
 
     public Login clone() {
@@ -44,7 +44,7 @@ public class Login implements Serializable {
     @Override
     public String toString() {
         return "Login{" +
-                ", Username: '" + username + '\'' +
+                ", Email: '" + email + '\'' +
                 ", Password:'" + password + '\'' +
                 '}';
     }
