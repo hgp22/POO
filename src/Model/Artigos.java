@@ -6,112 +6,177 @@ public class Artigos implements Serializable {
     private String descricao;
     private String marca;
     private String cod;
-    private float preco_base;
+    private float precoBase;
     private float desconto;
-    private int novo_usado; // Flag = 1 se novo, 0 se usado
+    private int novoUsado; // Flag = 0 se novo, 1 se usado
     public enum Estado{
         QUASE_NOVO,
         GASTO,
         MUITO_GASTO
     }
     private Estado estado;
-    private int num_donos;
+    private int numDonos;
 
     public Artigos(){
         this.descricao = "";
         this.marca = "";
         this.cod = "";
-        this.preco_base = 0.0F;
+        this.precoBase = 0.0F;
         this.desconto = 0.0F;
-        this.novo_usado = 1;
-        this.estado = Estado.QUASE_NOVO;
-        this.num_donos = 0;
+        this.novoUsado = 0;
+        this.estado = null;
+        this.numDonos = 0;
     }
 
-    public Artigos(String descricao, String marca, String cod, float preco_base, float desconto, int novo_usado, Estado estado,int num_donos) {
+    public Artigos(String descricao, String marca, String cod, float precoBase, float desconto, int novoUsado, Estado estado,int numDonos) {
         this.descricao = descricao;
         this.marca = marca;
         this.cod = cod;
-        this.preco_base = preco_base;
+        this.precoBase = precoBase;
         this.desconto = desconto;
-        this.novo_usado = novo_usado;
+        this.novoUsado = novoUsado;
         this.estado = estado;
-        this.num_donos = num_donos;
+        this.numDonos = numDonos;
     }
 
     public Artigos (Artigos artigo) {
         this.descricao = artigo.getDescricao();
         this.marca = artigo.getMarca();
         this.cod = artigo.getCod();
-        this.preco_base = artigo.getPreco_base();
+        this.precoBase = artigo.getPrecoBase();
         this.desconto = artigo.getDesconto();
-        this.novo_usado = artigo.getNovo_usado();
+        this.novoUsado = artigo.getNovoUsado();
         this.estado = artigo.getEstado();
-        this.num_donos = artigo.getNum_donos();
+        this.numDonos = artigo.getNumDonos();
     }
+
+    /**
+     * devolve a descrição do artigo
+     * @return descrição
+    */
 
     public String getDescricao() {
         return descricao;
     }
 
+    /**
+     * altera a descrição do artigo
+     * @param descricao
+     */
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
 
+    /**
+     * devolve a marca do artigo
+     * @return marca
+     */
     public String getMarca() {
         return marca;
     }
 
+    /**
+     * altera a marca do artigo
+     * @param marca
+     */
     public void setMarca(String marca) {
         this.marca = marca;
     }
 
+    /**
+     * devolve o código do artigo
+     * @return código
+     */
     public String getCod() {
         return cod;
     }
 
+    /**
+     * altera o código do artigo
+     * @param cod
+     */
     public void setCod(String cod) {
         this.cod = cod;
     }
 
-    public float getPreco_base() {
-        return preco_base;
+    /**
+     * devolve o preço base do artigo
+     * @return preço base
+     */
+    public float getPrecoBase() {
+        return precoBase;
     }
 
-    public void setPreco_base(float preco_base) {
-        this.preco_base = preco_base;
+    /**
+     * altera o preço base do artigo
+     * @param precoBase
+     */
+    public void setPrecoBase(float precoBase) {
+        this.precoBase = precoBase;
     }
 
+    /**
+     * devolve o desconto do artigo
+     * @return desconto
+     */
     public float getDesconto() {
         return desconto;
     }
 
+    /**
+     * altera o desconto do artigo
+     * @param desconto
+     */
     public void setDesconto(float desconto) {
         this.desconto = desconto;
     }
 
-    public int getNovo_usado() {
-        return novo_usado;
+    /**
+     * devolve se o artigo é novo ou usado
+     * @return novoUsado
+     */
+    public int getNovoUsado() {
+        return novoUsado;
     }
 
-    public void setNovo_usado(int novo_usado) {
-        this.novo_usado = novo_usado;
+    /**
+     * altera se o artigo é novo ou usado
+     * @param novoUsado
+     */
+    public void setNovoUsado(int novoUsado) {
+        this.novoUsado = novoUsado;
     }
 
+    /**
+     * devolve o estado do artigo
+     * @return estado
+     */
     public void setEstado(Estado estado) {
         this.estado = estado;
     }
 
+    /**
+     * altera o estado do artigo
+     * @param estado
+     */
     public Estado getEstado() {
         return estado;
     }
 
-    public int getNum_donos() {
-        return num_donos;
+    /**
+     * devolve o número de donos do artigo
+     * @return número de donos
+     */
+    public int getNumDonos() {
+        return numDonos;
     }
 
-    public void setNum_donos(int num_donos) {
-        this.num_donos = num_donos;
+    /**
+     * altera o número de donos do artigo
+     * @param numDonos
+     */
+    public void setNumDonos(int numDonos) {
+        this.numDonos = numDonos;
     }
 
     public boolean equals(Object o) {
@@ -122,23 +187,24 @@ public class Artigos implements Serializable {
                 this.marca.equals(artigo.getMarca()) &&
                 this.descricao.equals(artigo.getDescricao()) &&
                 this.cod.equals(artigo.getCod()) &&
-                this.preco_base == artigo.getPreco_base() &&
+                this.precoBase == artigo.getPrecoBase() &&
                 this.desconto == artigo.getDesconto() &&
-                this.novo_usado == artigo.getNovo_usado() &&
+                this.novoUsado == artigo.getNovoUsado() &&
                 this.estado == artigo.getEstado() &&
-                this.num_donos == artigo.getNum_donos();
+                this.numDonos == artigo.getNumDonos();
     }
 
+    @Override
     public String toString() {
         StringBuilder tsArtigo = new StringBuilder();
         tsArtigo.append("Descrição: ").append(this.descricao).append("\n");
         tsArtigo.append("Marca: ").append(this.marca).append("\n");
         tsArtigo.append("Código: ").append(this.cod).append("\n");
-        tsArtigo.append("Preço Base: ").append(this.preco_base).append("\n");
+        tsArtigo.append("Preço Base: ").append(this.precoBase).append("\n");
         tsArtigo.append("Desconto: ").append(this.desconto).append("\n");
-        tsArtigo.append("Novo(1) / Usado(0): ").append(this.novo_usado).append("\n");
+        tsArtigo.append("Novo(1) / Usado(0): ").append(this.novoUsado).append("\n");
         tsArtigo.append("Estado: ").append(this.estado).append("\n");
-        tsArtigo.append("Número de donos: ").append(this.num_donos).append("\n");
+        tsArtigo.append("Número de donos: ").append(this.numDonos).append("\n");
         return tsArtigo.toString();
     }
     public Artigos clone() {

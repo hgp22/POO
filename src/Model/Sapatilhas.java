@@ -11,26 +11,26 @@ public class Sapatilhas extends Artigos {
         REGULAR,
         PREMIUM
     }
-    private Tipo tipo_sapatilhas;
+    private Tipo tipoSapatilhas;
 
-    public  Sapatilhas(){
+    public Sapatilhas(){
         super();
         this.tamanho = 0.0F;
         this.atacadores = true;
         this.cor = "";
         this.dataLancamento = LocalDate.now();
-        this.tipo_sapatilhas = Tipo.REGULAR;
+        this.tipoSapatilhas = Tipo.REGULAR;
     }
 
-    public Sapatilhas(String descricao, String marca, String cod, float preco_base, float desconto, int novo_usado,
-                      Estado estado, int num_donos,float tamanho, boolean atacadores, String cor, LocalDate dataLancamento,
-                      Tipo tipo_sapatilhas) {
-        super(descricao, marca, cod, preco_base, desconto, novo_usado, estado, num_donos);
+    public Sapatilhas(String descricao, String marca, String cod, float precoBase, float desconto, int novoUsado,
+                      Estado estado, int numDonos,float tamanho, boolean atacadores, String cor, LocalDate dataLancamento,
+                      Tipo tipoSapatilhas) {
+        super(descricao, marca, cod, precoBase, desconto, novoUsado, estado, numDonos);
         this.tamanho = tamanho;
         this.atacadores = atacadores;
         this.cor = cor;
         this.dataLancamento = dataLancamento;
-        this.tipo_sapatilhas = tipo_sapatilhas;
+        this.tipoSapatilhas = tipoSapatilhas;
     }
     public Sapatilhas(Sapatilhas sapatilhas){
         super(sapatilhas);
@@ -38,7 +38,7 @@ public class Sapatilhas extends Artigos {
         this.atacadores = sapatilhas.getAtacadores();
         this.cor = sapatilhas.getCor();
         this.dataLancamento = sapatilhas.getDataLancamento();
-        this.tipo_sapatilhas = sapatilhas.getTipo();
+        this.tipoSapatilhas = sapatilhas.getTipo();
     }
 
     public float getTamanho() {
@@ -74,11 +74,11 @@ public class Sapatilhas extends Artigos {
     }
 
     public Tipo getTipo() {
-        return tipo_sapatilhas;
+        return tipoSapatilhas;
     }
 
-    public void setTipo(Tipo tipo_sapatilhas) {
-        this.tipo_sapatilhas = tipo_sapatilhas;
+    public void setTipo(Tipo tipoSapatilhas) {
+        this.tipoSapatilhas = tipoSapatilhas;
     }
 
     public String toString() {
@@ -88,7 +88,7 @@ public class Sapatilhas extends Artigos {
         tsSapatilhas.append("Atacadores: ").append(this.atacadores).append("\n");
         tsSapatilhas.append("Cor: ").append(this.cor).append("\n");
         tsSapatilhas.append("Data de lançamento: ").append(this.dataLancamento).append("\n");
-        tsSapatilhas.append("Tipo de sapatilha: ").append(this.tipo_sapatilhas).append("\n");
+        tsSapatilhas.append("Tipo de sapatilha: ").append(this.tipoSapatilhas).append("\n");
         return tsSapatilhas.toString();
     }
 
@@ -102,19 +102,18 @@ public class Sapatilhas extends Artigos {
         if(this == o) return true;
         if (this.getClass() != o.getClass()) return false;
 
-        Artigos sapatilha = (Sapatilhas) o;
         return this.tamanho == ((Sapatilhas) o).getTamanho() &&
                this.atacadores == ((Sapatilhas) o).getAtacadores() &&
                this.cor == ((Sapatilhas) o).getCor() &&
                this.dataLancamento == ((Sapatilhas) o).getDataLancamento() &&
-               this.tipo_sapatilhas == ((Sapatilhas) o).getTipo();
+               this.tipoSapatilhas == ((Sapatilhas) o).getTipo();
     }
 
     public float precoSapatilhas(){
-         float pb = getPreco_base();
-         int donos = getNum_donos();
+         float pb = super.getPrecoBase();
+         int donos = super.getNumDonos();
 
-         if(tamanho > 45 || this.getNovo_usado() == 0){
+         if(tamanho > 45 || super.getNovoUsado() == 1){
              if(this.getEstado() == Estado.MUITO_GASTO){
                  pb = (float)(pb * (1 / donos) * 0.5);
              }
@@ -129,9 +128,9 @@ public class Sapatilhas extends Artigos {
     }
 
     public float precoSapatilhasPremium(){
-        float pp = getPreco_base();
-        if(tipo_sapatilhas == Tipo.PREMIUM){
-            pp *= 1.25;
+        float pp = getPrecoBase();
+        if(tipoSapatilhas == Tipo.PREMIUM){
+            pp = (float)(pp * (1.20 *(LocalDate.now().getYear() - dataLancamento.getYear())));
         }
         return pp;
     }

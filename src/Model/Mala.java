@@ -11,13 +11,13 @@ public class Mala extends Artigos {
     private float profundidade;
 
     private String material;
-    private int ano_colecao;
+    private int anoColecao;
 
     private enum Tipo{
         REGULAR,
         PREMIUM
     }
-    private Tipo tipo_mala;
+    private Tipo tipoMala;
 
     public Mala(){
         super();
@@ -25,19 +25,19 @@ public class Mala extends Artigos {
         this.largura = 0.0F;
         this.profundidade = 0.0F;
         this.material = "";
-        this.ano_colecao = 0;
-        this.tipo_mala = Tipo.REGULAR;
+        this.anoColecao = 0;
+        this.tipoMala = Tipo.REGULAR;
     }
 
-    public Mala(String descricao, String marca, String cod, float preco_base, float desconto, int novo_usado, Estado estado,
-                int num_donos, float altura, float largura, float profundidade, String material, int ano_colecao, Tipo tipo_mala){
-        super(descricao, marca, cod, preco_base, desconto, novo_usado, estado, num_donos);
+    public Mala(String descricao, String marca, String cod, float precoBase, float desconto, int novoUsado, Estado estado,
+                int numDonos, float altura, float largura, float profundidade, String material, int anoColecao, Tipo tipoMala){
+        super(descricao, marca, cod, precoBase, desconto, novoUsado, estado, numDonos);
         this.altura = altura;
         this.largura = largura;
         this.profundidade = profundidade;
         this.material = material;
-        this.ano_colecao = ano_colecao;
-        this.tipo_mala = tipo_mala;
+        this.anoColecao = anoColecao;
+        this.tipoMala = tipoMala;
     }
 
     public Mala(Mala mala){
@@ -46,8 +46,8 @@ public class Mala extends Artigos {
         this.largura = mala.getLargura();
         this.profundidade = mala.getProfundidade();
         this.material = mala.getMaterial();
-        this.ano_colecao = mala.getAno_colecao();
-        this.tipo_mala = mala.getTipo_mala();
+        this.anoColecao = mala.getAnoColecao();
+        this.tipoMala = mala.getTipoMala();
     }
 
     public float getAltura() {
@@ -82,27 +82,27 @@ public class Mala extends Artigos {
         this.material = material;
     }
 
-    public int getAno_colecao() {
-        return ano_colecao;
+    public int getAnoColecao() {
+        return anoColecao;
     }
 
-    public void setAno_colecao(int ano_colecao) {
-        this.ano_colecao = ano_colecao;
+    public void setAnoColecao(int anoColecao) {
+        this.anoColecao = anoColecao;
     }
 
-    public Tipo getTipo_mala() {
-        return tipo_mala;
+    public Tipo getTipoMala() {
+        return tipoMala;
     }
 
-    public void setTipo_mala(Tipo tipo_mala) {
-        this.tipo_mala = tipo_mala;
+    public void setTipoMala(Tipo tipoMala) {
+        this.tipoMala = tipoMala;
     }
 
     public float preco(){
-        float pb = getPreco_base();
-        float desconto = pb * (1/(this.altura*this.largura*this.profundidade)) * (1/this.ano_colecao);
-        float pf;
-        return pf = pb * desconto; // + valorizacao
+        float pb = getPrecoBase();
+        float desconto = pb * (1/(this.altura*this.largura*this.profundidade)) * (1/this.anoColecao);
+        float pf = pb * desconto;
+        return pf; // + valorizacao
     }
 
     public float valorizacao(LocalDate inicio, LocalDate fim){
@@ -112,16 +112,16 @@ public class Mala extends Artigos {
     }
 
     public boolean equals(Object o){
+        if (!super.equals(o)) return false;
         if(this == o) return true;
-        if(o == null || this.getClass() != o.getClass()) return false
+        if(o == null || this.getClass() != o.getClass()) return false;
 
-        Artigos artigo = (Mala) o;
         return (this.altura == ((Mala) o).getAltura() &&
                 this.largura == ((Mala) o).getLargura() &&
                 this.profundidade == ((Mala) o).getProfundidade() &&
                 this.material == ((Mala) o).getMaterial() &&
-                this.ano_colecao == ((Mala) o).getAno_colecao() &&
-                this.tipo_mala == ((Mala) o).getTipo_mala());
+                this.anoColecao == ((Mala) o).getAnoColecao() &&
+                this.tipoMala == ((Mala) o).getTipoMala());
     }
 
     public String toString(){
@@ -130,8 +130,8 @@ public class Mala extends Artigos {
         string.append("Mala-----------").append("\n");
         string.append("Dimensao: ").append(this.altura).append("x").append(this.largura).append("x").append(this.profundidade);
         string.append("Material: ").append(this.material).append("\n");
-        string.append("Ano: ").append(this.ano_colecao).append("\n");
-        string.append("Tipo de Mala: ").append(this.tipo_mala).append("\n");
+        string.append("Ano: ").append(this.anoColecao).append("\n");
+        string.append("Tipo de Mala: ").append(this.tipoMala).append("\n");
         string.append("-----------------");
         return string.toString();
     }

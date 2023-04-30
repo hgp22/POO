@@ -7,34 +7,33 @@ public class Utilizador extends Login{
     private int id;
     private String nome;
     private String morada;
-    private int n_fiscal;
+    private int numeroFiscal;
     private List<String> produtosComprados;
     private List<String> produtosVendidos;
     private List<String> produtosAVenda;
-    private double lucro;
 
     public Utilizador() {
         super();
         this.id = idCounter++;
         this.nome = "";
         this.morada = "";
-        this.n_fiscal = 0;
+        this.numeroFiscal = 0;
         this.produtosComprados = null;
         this.produtosVendidos = null;
         this.produtosAVenda = null;
-        this.lucro = 0.0;
+        
     }
 
-    public Utilizador(String email, String password, String nome, String morada, int n_fiscal, List<String> produtosComprados, List<String> produtosVendidos, List<String> produtosAVenda, double lucro) {
+    public Utilizador(String email, String password, String nome, String morada, int numeroFiscal, List<String> produtosComprados, List<String> produtosVendidos, List<String> produtosAVenda) {
         super(email, password);
         this.id = idCounter++;
         this.nome = nome;
         this.morada = morada;
-        this.n_fiscal = n_fiscal;
+        this.numeroFiscal = numeroFiscal;
         this.produtosComprados = produtosComprados;
         this.produtosVendidos = produtosVendidos;
         this.produtosAVenda = produtosAVenda;
-        this.lucro = lucro;
+        
     }
 
     public Utilizador(Utilizador u) {
@@ -42,11 +41,11 @@ public class Utilizador extends Login{
         this.id = idCounter++;
         this.nome = u.getNome();
         this.morada = u.getMorada();
-        this.n_fiscal = u.getN_fiscal();
+        this.numeroFiscal = u.getnumeroFiscal();
         this.produtosComprados = u.getProdutosComprados();
         this.produtosVendidos = u.getProdutosVendidos();
         this.produtosAVenda = u.getProdutosAVenda();
-        this.lucro = u.getLucro();
+        
     }
 
 
@@ -74,12 +73,12 @@ public class Utilizador extends Login{
         this.morada = morada;
     }
 
-    public int getN_fiscal() {
-        return n_fiscal;
+    public int getnumeroFiscal() {
+        return numeroFiscal;
     }
 
-    public void setN_fiscal (int n_fiscal) {
-        this.n_fiscal = n_fiscal;
+    public void setnumeroFiscal (int numeroFiscal) {
+        this.numeroFiscal = numeroFiscal;
     }
 
     public List<String> getProdutosComprados() {
@@ -106,14 +105,6 @@ public class Utilizador extends Login{
         this.produtosAVenda = produtosAVenda;
     }
 
-    public double getLucro() {
-        return lucro;
-    }
-
-    public void setLucro (double lucro) {
-        this.lucro = lucro;
-    }
-
     public Utilizador clone() {
         return new Utilizador(this);
     }
@@ -123,11 +114,10 @@ public class Utilizador extends Login{
                 "id=" + id +
                 ", nome='" + nome + '\'' +
                 ", morada='" + morada + '\'' +
-                ", n_fiscal=" + n_fiscal +
+                ", numeroFiscal=" + numeroFiscal +
                 ", produtosComprados=" + produtosComprados +
                 ", produtosVendidos=" + produtosVendidos +
                 ", produtosAVenda=" + produtosAVenda +
-                ", lucro=" + lucro +
                 '}';
     }
 
@@ -136,8 +126,7 @@ public class Utilizador extends Login{
         if (!(o instanceof Utilizador)) return false;
         Utilizador that = (Utilizador) o;
         return getId() == that.getId() &&
-                getN_fiscal() == that.getN_fiscal() &&
-                Double.compare(that.getLucro(), getLucro()) == 0 &&
+                getnumeroFiscal() == that.getnumeroFiscal() &&
                 getNome().equals(that.getNome()) &&
                 getMorada().equals(that.getMorada()) &&
                 getProdutosComprados().equals(that.getProdutosComprados()) &&
