@@ -2,8 +2,9 @@ package Model;
 
 import java.time.LocalDate;
 import java.util.Map;
+import java.io.Serializable;
 
-public class Encomenda {
+public class Encomenda implements Serializable {
     private Map<String, Artigos> artigos;
     public enum estadoEncomenda {
         PENDENTE,

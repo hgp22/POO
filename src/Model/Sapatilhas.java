@@ -81,6 +81,7 @@ public class Sapatilhas extends Artigos {
         this.tipoSapatilhas = tipoSapatilhas;
     }
 
+    @Override
     public String toString() {
         StringBuilder tsSapatilhas = new StringBuilder();
         tsSapatilhas.append(super.toString());
@@ -97,6 +98,7 @@ public class Sapatilhas extends Artigos {
         return new Sapatilhas(this);
     }
 
+    @Override
     public boolean equals(Object o) {
         if (!super.equals(o)) return false;
         if(this == o) return true;
@@ -130,7 +132,7 @@ public class Sapatilhas extends Artigos {
     public float precoSapatilhasPremium(){
         float pp = getPrecoBase();
         if(tipoSapatilhas == Tipo.PREMIUM){
-            pp = (float)(pp * (1.20 *(LocalDate.now().getYear() - dataLancamento.getYear())));
+            pp = (float)(pp * (1.20 *(LocalDate.now().getYear() - this.dataLancamento.getYear())));
         }
         return pp;
     }

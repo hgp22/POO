@@ -14,34 +14,34 @@ public class Tshirt extends Artigos {
         PALMEIRAS
     }
 
-    private Tamanho t;
+    private Tamanho tamanho;
     private Padrao padrao;
 
     public Tshirt() {
         super();
-        this.t = Tamanho.S;
+        this.tamanho = Tamanho.S;
         this.padrao = Padrao.LISO;
     }
 
     public Tshirt(String descricao, String marca, String cod, float precoBase, float desconto, int novoUsado, Estado estado,
                   int numDonos,Tamanho tamanho, Padrao padrao) {
         super(descricao, marca, cod, precoBase, desconto, novoUsado, estado, numDonos);
-        this.t = tamanho;
+        this.tamanho = tamanho;
         this.padrao = padrao;
     }
 
     public Tshirt(Tshirt tshirt){
         super(tshirt);
-        this.t = Tamanho.S;
+        this.tamanho = Tamanho.S;
         this.padrao = Padrao.LISO;
     }
 
     public Tamanho getTamanho() {
-        return t;
+        return tamanho;
     }
 
     public void setTamanho(Tamanho tamanho) {
-        this.t = tamanho;
+        this.tamanho = tamanho;
     }
 
     public Padrao getPadrao() {
@@ -53,9 +53,9 @@ public class Tshirt extends Artigos {
     }
 
     public double precoTshirt(){
-        double pb = getPrecoBase();
+        double pb = super.getPrecoBase();
 
-        if(this.padrao != Padrao.LISO && super.getNovoUsado() == false)
+        if(this.padrao != Padrao.LISO && super.getNovoUsado() == 1)
             return pb * 0.5;
 
         return pb;
@@ -66,7 +66,7 @@ public class Tshirt extends Artigos {
         if(this == o) return true;
         if(o == null || this.getClass() != o.getClass()) return false;
 
-        return (this.t == ((Tshirt) o).getTamanho() &&
+        return (this.tamanho == ((Tshirt) o).getTamanho() &&
                 this.padrao == ((Tshirt) o).getPadrao());
     }
 
@@ -75,7 +75,7 @@ public class Tshirt extends Artigos {
         string.append(super.toString());
         string.append("Tshirt-----------").append("\n");
         string.append("Padrao > ").append(this.padrao).append("\n");
-        string.append("Tamanho > ").append(this.t).append("\n");
+        string.append("Tamanho > ").append(this.tamanho).append("\n");
         string.append("-----------------");
         return string.toString();
     }
