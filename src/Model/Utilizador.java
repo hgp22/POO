@@ -37,7 +37,7 @@ public class Utilizador extends Login{
     }
 
     public Utilizador(Utilizador u) {
-        super(u.getEmail(), u.getPassword());
+        super(u);
         this.id = idCounter++;
         this.nome = u.getNome();
         this.morada = u.getMorada();
