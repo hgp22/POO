@@ -46,7 +46,7 @@ public class Print implements Serializable {
 
         size = menu.length;
         for(int i = 0;i < size;i++)
-            System.out.println(i+1+" | "+menu[i]);
+            System.out.println(i+1 + " | " + menu[i]);
         
         if(type == 0)
             System.out.println("0 | Sair");
