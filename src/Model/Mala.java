@@ -112,7 +112,8 @@ public class Mala extends Artigos {
     }
 
     public boolean equals(Object o){
-        if (!super.equals(o)) return false;
+        Artigos artigo = (Mala) o;
+        if (!super.equals(artigo)) return false;
         if(this == o) return true;
         if(o == null || this.getClass() != o.getClass()) return false;
 

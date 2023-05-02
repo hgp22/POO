@@ -21,12 +21,15 @@ public class ParseInputs {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime dateTime = LocalDateTime.parse(input, formatter);
 
+        scanner.close();
+
         try {
             dateTime = LocalDateTime.parse(input, formatter);
         } catch (DateTimeParseException e) {
             p.printMessage("Formato invalido.");
             return readDateTime(p, message);
         }
+
 
         return dateTime;
     }
@@ -61,6 +64,8 @@ public class ParseInputs {
         p.printMessage("Introduza os Produtos a Venda -- se existirem");
         List<String> produtosAVenda = readList(p);
 
+        scanner.close();
+
         return new Utilizador(email, pw, nome, morada, Integer.parseInt(nif),
                 produtosComprados, produtosVendidos, produtosAVenda);
     }
@@ -76,6 +81,8 @@ public class ParseInputs {
             if(input.equals("stop")){break;}
             strings.add(input);
         }
+
+        s.close();
 
         return strings;
     }
