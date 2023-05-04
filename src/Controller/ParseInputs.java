@@ -30,7 +30,6 @@ public class ParseInputs {
             return readDateTime(p, message);
         }
 
-
         return dateTime;
     }
 
