@@ -3,21 +3,27 @@ package View;
 import Controller.Controlador;
 import Controller.Input;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Scanner;
+
+import Files.*;
 
 public class Viewer implements Serializable {
     private Controlador controlador;
     private Input input;
     private Scanner sc;
+    private Estado estado;
 
     public Viewer(Controlador controlador) {
         this.controlador = controlador.clone();
         this.sc = new Scanner(System.in);
+        this.estado = new Estado();
     }
 
-    public void menu() {
-        input = new Input(sc);
+    public void menu() throws FileNotFoundException, IOException {
+        this.input = new Input(sc);
         int opcao;
 
         do {
@@ -46,7 +52,11 @@ public class Viewer implements Serializable {
                     menuLogin();
                     break;
                 case 2:
-                    //gravarEstado();
+                    System.out.println("Insira o nome do ficheiro: ");
+                    String nomeFicheiro = this.sc.nextLine();
+                    System.out.println("oi");
+                    estado.guardarEstado(nomeFicheiro + ".dat");
+                    System.out.println("Estado guardado com sucesso!");
                     break;
                 case 3:
                     //carregarEstado();
@@ -73,9 +83,8 @@ public class Viewer implements Serializable {
         System.out.println("1 - Login");
         System.out.println("2 - Registar");
         System.out.println("0 - Voltar atrás");
-        int opcao = this.sc.nextInt();
 
-        //int opcao = input.lerInteiro(0, 2);
+        int opcao = input.lerInteiro(0, 2);
 
         switch (opcao) {
             case 1:
@@ -99,6 +108,8 @@ public class Viewer implements Serializable {
                 int nif = this.sc.nextInt();
                 
                 this.controlador.criaUtilizador(email2, password2, nome, morada, nif);
+                this.controlador.login(email2, password2);
+                System.out.println("Utilizador criado com sucesso, login efetuado!");
                 break;
             case 0:
                 break;
