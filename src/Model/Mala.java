@@ -13,11 +13,11 @@ public class Mala extends Artigos {
     private String material;
     private int anoColecao;
 
-    private enum Tipo{
+    public enum TipoMala{
         REGULAR,
         PREMIUM
     }
-    private Tipo tipoMala;
+    private TipoMala tipoMala;
 
     public Mala(){
         super();
@@ -26,11 +26,11 @@ public class Mala extends Artigos {
         this.profundidade = 0.0F;
         this.material = "";
         this.anoColecao = 0;
-        this.tipoMala = Tipo.REGULAR;
+        this.tipoMala = TipoMala.REGULAR;
     }
 
-    public Mala(String descricao, String marca, String cod, float precoBase, float desconto, int novoUsado, Estado estado,
-                int numDonos, float altura, float largura, float profundidade, String material, int anoColecao, Tipo tipoMala){
+    public Mala(String descricao, String marca, String cod, float precoBase, float desconto, int novoUsado, EstadoArtigo estado,
+                int numDonos, float altura, float largura, float profundidade, String material, int anoColecao, TipoMala tipoMala){
         super(descricao, marca, cod, precoBase, desconto, novoUsado, estado, numDonos);
         this.altura = altura;
         this.largura = largura;
@@ -90,11 +90,11 @@ public class Mala extends Artigos {
         this.anoColecao = anoColecao;
     }
 
-    public Tipo getTipoMala() {
+    public TipoMala getTipoMala() {
         return tipoMala;
     }
 
-    public void setTipoMala(Tipo tipoMala) {
+    public void setTipoMala(TipoMala tipoMala) {
         this.tipoMala = tipoMala;
     }
 

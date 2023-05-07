@@ -15,11 +15,9 @@ public class Transportadoras {
         this.lucro = 0.0F;
     }
 
-    public Transportadoras(String nome, boolean transportaPremium, float precoBase, float imposto, float lucro) {
+    public Transportadoras(String nome, boolean transportaPremium, float lucro) {
         this.nome = nome;
         this.transportaPremium = transportaPremium;
-        this.precoBase = precoBase;
-        this.imposto = imposto;
         this.lucro = lucro;
     }
 

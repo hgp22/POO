@@ -1,17 +1,17 @@
 package Model;
 
 import java.time.LocalDate;
-import java.time.Month;
+
 public class Sapatilhas extends Artigos {
     private float tamanho;
     private boolean atacadores;
     private String cor;
     private LocalDate dataLancamento;
-    public enum Tipo{
+    public enum TipoSapatilhas{
         REGULAR,
         PREMIUM
     }
-    private Tipo tipoSapatilhas;
+    private TipoSapatilhas tipoSapatilhas;
 
     public Sapatilhas(){
         super();
@@ -19,12 +19,12 @@ public class Sapatilhas extends Artigos {
         this.atacadores = true;
         this.cor = "";
         this.dataLancamento = LocalDate.now();
-        this.tipoSapatilhas = Tipo.REGULAR;
+        this.tipoSapatilhas = TipoSapatilhas.REGULAR;
     }
 
     public Sapatilhas(String descricao, String marca, String cod, float precoBase, float desconto, int novoUsado,
-                      Estado estado, int numDonos,float tamanho, boolean atacadores, String cor, LocalDate dataLancamento,
-                      Tipo tipoSapatilhas) {
+                      EstadoArtigo estado, int numDonos,float tamanho, boolean atacadores, String cor, LocalDate dataLancamento,
+                      TipoSapatilhas tipoSapatilhas) {
         super(descricao, marca, cod, precoBase, desconto, novoUsado, estado, numDonos);
         this.tamanho = tamanho;
         this.atacadores = atacadores;
@@ -73,11 +73,11 @@ public class Sapatilhas extends Artigos {
         this.dataLancamento = dataLancamento;
     }
 
-    public Tipo getTipo() {
+    public TipoSapatilhas getTipo() {
         return tipoSapatilhas;
     }
 
-    public void setTipo(Tipo tipoSapatilhas) {
+    public void setTipo(TipoSapatilhas tipoSapatilhas) {
         this.tipoSapatilhas = tipoSapatilhas;
     }
 
@@ -116,13 +116,13 @@ public class Sapatilhas extends Artigos {
          int donos = super.getNumDonos();
 
          if(tamanho > 45 || super.getNovoUsado() == 1){
-             if(this.getEstado() == Estado.MUITO_GASTO){
+             if(this.getEstado() == EstadoArtigo.MUITO_GASTO){
                  pb = (float)(pb * (1 / donos) * 0.5);
              }
-             if(this.getEstado() == Estado.GASTO){
+             if(this.getEstado() == EstadoArtigo.GASTO){
                  pb = (float)(pb * (1 / donos) * 0.25);
              }
-             if(this.getEstado() == Estado.QUASE_NOVO){
+             if(this.getEstado() == EstadoArtigo.QUASE_NOVO){
                  pb = (float)(pb * (1 / donos) * 0.1);
              }
              return pb;
@@ -131,7 +131,7 @@ public class Sapatilhas extends Artigos {
 
     public float precoSapatilhasPremium(){
         float pp = getPrecoBase();
-        if(tipoSapatilhas == Tipo.PREMIUM){
+        if(tipoSapatilhas == TipoSapatilhas.PREMIUM){
             pp = (float)(pp * (1.20 *(LocalDate.now().getYear() - this.dataLancamento.getYear())));
         }
         return pp;

@@ -23,7 +23,7 @@ public class Tshirt extends Artigos {
         this.padrao = Padrao.LISO;
     }
 
-    public Tshirt(String descricao, String marca, String cod, float precoBase, float desconto, int novoUsado, Estado estado,
+    public Tshirt(String descricao, String marca, String cod, float precoBase, float desconto, int novoUsado, EstadoArtigo estado,
                   int numDonos,Tamanho tamanho, Padrao padrao) {
         super(descricao, marca, cod, precoBase, desconto, novoUsado, estado, numDonos);
         this.tamanho = tamanho;

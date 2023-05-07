@@ -9,12 +9,12 @@ public class Artigos implements Serializable {
     private float precoBase;
     private float desconto;
     private int novoUsado; // Flag = 0 se novo, 1 se usado
-    public enum Estado{
+    public enum EstadoArtigo{
         QUASE_NOVO,
         GASTO,
         MUITO_GASTO
     }
-    private Estado estado;
+    private EstadoArtigo estado;
     private int numDonos;
 
     public Artigos(){
@@ -28,7 +28,7 @@ public class Artigos implements Serializable {
         this.numDonos = 0;
     }
 
-    public Artigos(String descricao, String marca, String cod, float precoBase, float desconto, int novoUsado, Estado estado,int numDonos) {
+    public Artigos(String descricao, String marca, String cod, float precoBase, float desconto, int novoUsado, EstadoArtigo estado,int numDonos) {
         this.descricao = descricao;
         this.marca = marca;
         this.cod = cod;
@@ -151,7 +151,7 @@ public class Artigos implements Serializable {
      * devolve o estado do artigo
      * @return estado
      */
-    public void setEstado(Estado estado) {
+    public void setEstado(EstadoArtigo estado) {
         this.estado = estado;
     }
 
@@ -159,7 +159,7 @@ public class Artigos implements Serializable {
      * altera o estado do artigo
      * @param estado
      */
-    public Estado getEstado() {
+    public EstadoArtigo getEstado() {
         return estado;
     }
 
