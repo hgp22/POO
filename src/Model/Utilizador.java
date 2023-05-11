@@ -134,6 +134,8 @@ public class Utilizador extends Login{
                 getProdutosAVenda().equals(that.getProdutosAVenda());
     }
 
-
+    public void addVender(Artigos a) {
+        this.produtosAVenda.add(a.getCod());
+    }
 
 }

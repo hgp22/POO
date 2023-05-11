@@ -5,13 +5,15 @@ import java.io.IOException;
 
 import Controller.*;
 import Model.*;
+import View.*;
 
 public class VintageApp {
     public static void main(String[] args) throws FileNotFoundException, IOException, ClassNotFoundException, VintageException {
         GestorVintage gestor = new GestorVintage();
-        Controlador controlador = new Controlador(gestor);
-        Viewer viewer = new Viewer(controlador);
-
-        viewer.menu();
+        Apresentacao viewer = new Apresentacao();
+        Controlador controlador = new Controlador();
+        
+        controlador.controlador(viewer, gestor);
+    
     }
 }

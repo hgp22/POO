@@ -4,28 +4,35 @@ import java.io.Serializable;
 import java.util.*;
 
 public class GestorVintage implements Serializable {
-    private static Map<String, Utilizador> utilizadores;
+    private Map<String, Utilizador> utilizadores;
     private Map<String, Transportadoras> transportadoras;
-    private List<Artigos> artigosVenda;
+    private List<Artigos> artigosVenda; 
     private Map<Integer, Encomenda> encomendas;
 
     public GestorVintage() {
-        GestorVintage.utilizadores = new HashMap<>();
+        this.utilizadores = new HashMap<>();
         this.transportadoras = new HashMap<>();
         this.artigosVenda = new ArrayList<>();
         this.encomendas = new HashMap<>();    
     }
 
+    public GestorVintage(Map<String, Utilizador> utilizadores, Map<String, Transportadoras> transportadoras, List<Artigos> artigosVenda, Map<Integer, Encomenda> encomendas) {
+        this.utilizadores = utilizadores;
+        this.transportadoras = transportadoras;
+        this.artigosVenda = artigosVenda;
+        this.encomendas = encomendas;
+    }
+
     public GestorVintage(GestorVintage gestor) {
-        GestorVintage.utilizadores = gestor.getUtilizadores();
+        this.utilizadores = gestor.getUtilizadores();
         this.transportadoras = gestor.getTransportadoras();
-        this.artigosVenda = gestor.getArtigos();
+        this.artigosVenda = gestor.getArtigosVenda();
         this.encomendas = gestor.getEncomendas();
     }
 
     public Map<String, Utilizador> getUtilizadores() {
         Map<String, Utilizador> aux = new HashMap<>();
-        for (Map.Entry<String, Utilizador> entry : GestorVintage.utilizadores.entrySet()) {
+        for (Map.Entry<String, Utilizador> entry : this.utilizadores.entrySet()) {
             aux.put(entry.getKey(), entry.getValue().clone());
         }
         return aux;
@@ -39,7 +46,7 @@ public class GestorVintage implements Serializable {
         return aux;
     }
 
-    public List<Artigos> getArtigos() {
+    public List<Artigos> getArtigosVenda() {
         List<Artigos> aux = new ArrayList<>();
         for (Artigos a : this.artigosVenda) {
             aux.add(a.clone());
@@ -85,6 +92,13 @@ public class GestorVintage implements Serializable {
     }
     */
     
+
+
+
+
+
+
+
     public void addUtilizador(Utilizador utilizador) {
         utilizadores.put(utilizador.getEmail(), utilizador);
     }
@@ -93,23 +107,42 @@ public class GestorVintage implements Serializable {
         transportadoras.put(transportadora.getNome(), transportadora);
     }
     
-    public void addArtigo(Artigos artigo) {
-        artigosVenda.add(artigo);
+    public void addArtigoPorVender(Artigos artigo, Login login) {
+        this.utilizadores.get(login.getEmail()).addVender(artigo);
+    }
+
+    public void addArtigoVenda(String cod, Login login, Encomenda e) {
+        for(Artigos a : artigosVenda){
+            if(a.getCod() == cod){
+                for(String s : this.utilizadores.keySet()){
+                    if(this.utilizadores.get(s).getEmail() == login.getEmail()){
+                        addArtigoPorVender(a, login);
+                    }
+                }
+            }
+        }
+
     }
     
     public void addEncomenda(Encomenda encomenda) {
         encomendas.put(encomenda.getId(), encomenda);
-        }
+    }
 
     // verificar se existe o utilizador
-    public static boolean existeUtilizador(String email, String password) {
+    public boolean existeUtilizador(String email, String password) {
         Utilizador us = utilizadores.get(email);
         if(us != null){
-            return utilizadores.get(email).getPassword().equals(password);
+            return us.getPassword().equals(password);
         }    
         return false;
-    }   
+    }
     
+    // funcao para calcular o preco de expedicao
 
 
+    // funcao que percorre cada user e lista as malas que estao por vender
+    public List<Integer> listaMalasPorVender(Login login) {
+
+        return null;
+    }
 }

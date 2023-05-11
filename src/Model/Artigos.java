@@ -12,7 +12,7 @@ public class Artigos implements Serializable {
     public enum EstadoArtigo{
         QUASE_NOVO,
         GASTO,
-        MUITO_GASTO
+        MUITO_GASTO;
     }
     private EstadoArtigo estado;
     private int numDonos;

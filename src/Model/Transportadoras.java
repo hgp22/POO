@@ -10,8 +10,7 @@ public class Transportadoras {
     public Transportadoras(){
         this.nome = "";
         this.transportaPremium = false;
-        this.precoBase = 0.0F;
-        this.imposto = 0.0F;
+        this.imposto = 0.3F;
         this.lucro = 0.0F;
     }
 
@@ -24,7 +23,6 @@ public class Transportadoras {
     public Transportadoras(Transportadoras transportadora) {
         this.nome = transportadora.getNome();
         this.transportaPremium = transportadora.getTransportaPremium();
-        this.precoBase = transportadora.getPrecoBase();
         this.imposto = transportadora.getImposto();
         this.lucro = transportadora.getLucro();
     }
@@ -35,10 +33,6 @@ public class Transportadoras {
 
     public boolean getTransportaPremium() {
         return transportaPremium;
-    }
-
-    public float getPrecoBase() {
-        return precoBase;
     }
 
     public float getImposto() {
@@ -57,9 +51,6 @@ public class Transportadoras {
         this.transportaPremium = transportaPremium;
     }
 
-    public void setPrecoBase(float precoBase) {
-        this.precoBase = precoBase;
-    }
 
     public void setImposto(float imposto) {
         this.imposto = imposto;
@@ -75,9 +66,8 @@ public class Transportadoras {
 
     public String toString() {
         return "Transportadoras{" +
-                "nome='" + nome + '\'' +
+                "nome='" + nome  +
                 ", transportaPremium=" + transportaPremium +
-                ", precoBase=" + precoBase +
                 ", imposto=" + imposto +
                 ", lucro=" + lucro +
                 '}';
@@ -90,7 +80,6 @@ public class Transportadoras {
         Transportadoras transportadora = (Transportadoras) o;
 
         if (getTransportaPremium() != transportadora.getTransportaPremium()) return false;
-        if (Float.compare(transportadora.getPrecoBase(), getPrecoBase()) != 0) return false;
         if (Float.compare(transportadora.getImposto(), getImposto()) != 0) return false;
         if (Float.compare(transportadora.getLucro(), getLucro()) != 0) return false;
         return getNome().equals(transportadora.getNome());

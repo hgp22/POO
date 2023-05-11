@@ -1,40 +1,35 @@
 package Controller;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Scanner;
 
-import javax.swing.text.View;
-
-import View.Viewer;
+import View.Apresentacao;
 
 public class Input implements Serializable {
     private Scanner sc;
     
-    public Input(Scanner sc) {
-        this.sc = sc;
+    public Input() {
+        this.sc = new Scanner(System.in);
     }
-    public int lerInteiro(int min, int max) {
-        int input = -1;
-        do {
-            try { 
-                input = sc.nextInt();
-                sc.nextLine();
 
-                if (input < min || input > max) {
-                    System.out.println("Por favor insira um número entre " + min + " e " + max + ".");
-                    sc.nextLine();
-                    input = -1;
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Por favor insira um número entre " + min + " e " + max + ".");
-                sc.nextLine();
+    public int lerInteiro (Apresentacao a, String message, int min, int max) {
+        int n = -1;
+
+        do{
+            a.printMessage(message);
+            try {
+                String line = this.sc.nextLine();
+                n = Integer.parseInt(line);
+            } catch (NumberFormatException nfe) {
+                a.printMessage(nfe.getMessage());
+                n = -1;
             }
-        } while (input == -1);
-        return input;
+        } while (n < min || n > max);
+        return n;
     }
 
-    public boolean readSN(String mensagem) {
-        sc.nextLine(); // limpar buffer do scanner
+    public boolean readSN(Apresentacao a, String mensagem) {
         String input;
         do {
             System.out.println(mensagem);
@@ -43,13 +38,45 @@ public class Input implements Serializable {
         return input.equals("S");
     }
 
-    public String leString(Viewer viewer, String mensagem) {
+    public String lerString(Apresentacao a, String mensagem) {
         String s = null;
         do
         {
-            viewer.printMessage(mensagem);
+            a.printMessage(mensagem);
             s = this.sc.nextLine();
         } while (s==null || s.isBlank());
         return s;
+    }
+
+    public float lerFloat(Apresentacao a, String string, float min, float max) {
+        float n = -1;
+
+        do{
+            a.printMessage(string);
+            try {
+                String line = this.sc.nextLine();
+                n = Float.parseFloat(line);
+            } catch (NumberFormatException nfe) {
+                a.printMessage(nfe.getMessage());
+                n = -1;
+            }
+        } while (n < min || n > max);
+        return n;
+    }
+
+    public LocalDate lerData(Apresentacao a, String string){
+        LocalDate data = null;
+        boolean flag = true;
+        do{
+            try{
+                String line = this.sc.nextLine();
+                data = LocalDate.parse(line);
+                flag = false;
+            } catch (Exception e){
+                System.out.println("Data inválida");
+            }
+        } while (flag);
+        return data;
+        
     }
 }
