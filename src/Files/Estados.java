@@ -22,11 +22,5 @@ public class Estados {
         return c;
     }
 
-    public static void carregarEstado (String ficheiro, GestorVintage gestor) throws FileNotFoundException, IOException, ClassNotFoundException {
-        FileInputStream fis = new FileInputStream(ficheiro);
-        ObjectInputStream ois = new ObjectInputStream(fis);
-        gestor = (GestorVintage) ois.readObject();
-        // fis.close();
-        // ois.close();
-    }
+
 }

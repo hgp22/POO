@@ -11,7 +11,7 @@ public class Mala extends Artigos {
     private float profundidade;
 
     private String material;
-    private int anoColecao;
+    private LocalDate dataLancamento;
 
     public enum TipoMala{
         REGULAR,
@@ -25,18 +25,18 @@ public class Mala extends Artigos {
         this.largura = 0.0F;
         this.profundidade = 0.0F;
         this.material = "";
-        this.anoColecao = 0;
+        this.dataLancamento = LocalDate.now();
         this.tipoMala = TipoMala.REGULAR;
     }
 
     public Mala(String descricao, String marca, String cod, float precoBase, float desconto, int novoUsado, EstadoArtigo estado,
-                int numDonos, float altura, float largura, float profundidade, String material, int anoColecao, TipoMala tipoMala){
-        super(descricao, marca, cod, precoBase, desconto, novoUsado, estado, numDonos);
+                int numDonos, Transportadoras transportadora,Utilizador vendedor, float altura, float largura, float profundidade, String material, LocalDate dataLancamento, TipoMala tipoMala){
+        super(descricao, marca, cod, precoBase, desconto, novoUsado, estado, numDonos, transportadora, vendedor);
         this.altura = altura;
         this.largura = largura;
         this.profundidade = profundidade;
         this.material = material;
-        this.anoColecao = anoColecao;
+        this.dataLancamento = dataLancamento;
         this.tipoMala = tipoMala;
     }
 
@@ -46,7 +46,7 @@ public class Mala extends Artigos {
         this.largura = mala.getLargura();
         this.profundidade = mala.getProfundidade();
         this.material = mala.getMaterial();
-        this.anoColecao = mala.getAnoColecao();
+        this.dataLancamento = mala.getDataLancamento();
         this.tipoMala = mala.getTipoMala();
     }
 
@@ -82,12 +82,12 @@ public class Mala extends Artigos {
         this.material = material;
     }
 
-    public int getAnoColecao() {
-        return anoColecao;
+    public LocalDate getDataLancamento() {
+        return dataLancamento;
     }
 
-    public void setAnoColecao(int anoColecao) {
-        this.anoColecao = anoColecao;
+    public void setDataLancamento(LocalDate dataLancamento) {
+        this.dataLancamento = dataLancamento;
     }
 
     public TipoMala getTipoMala() {
@@ -98,16 +98,17 @@ public class Mala extends Artigos {
         this.tipoMala = tipoMala;
     }
 
-    public float preco(){
+    public float precoMala(){
         float pb = getPrecoBase();
-        float desconto = pb * (1/(this.altura*this.largura*this.profundidade)) * (1/this.anoColecao);
+        float desconto = pb * (1/(this.altura*this.largura*this.profundidade)) * (1/this.dataLancamento.getYear());
         float pf = pb * desconto;
-        return pf; // + valorizacao
+        if (this.tipoMala == TipoMala.PREMIUM) pf = pf + this.valorizacaoMala(this.dataLancamento, LocalDate.now());
+        return pf - this.getDesconto(); // + valorizacao
     }
 
-    public float valorizacao(LocalDate inicio, LocalDate fim){
+    public float valorizacaoMala(LocalDate inicio, LocalDate fim){
         long anos = YEARS.between(inicio, fim);
-        float val = (float) (0.1 * anos);
+        float val = (float) ((0.1 * anos)/this.getPrecoBase()) * 100;
         return val;
     }
 
@@ -121,24 +122,23 @@ public class Mala extends Artigos {
                 this.largura == ((Mala) o).getLargura() &&
                 this.profundidade == ((Mala) o).getProfundidade() &&
                 this.material == ((Mala) o).getMaterial() &&
-                this.anoColecao == ((Mala) o).getAnoColecao() &&
+                this.dataLancamento == ((Mala) o).getDataLancamento() &&
                 this.tipoMala == ((Mala) o).getTipoMala());
     }
 
     public String toString(){
         StringBuilder string = new StringBuilder();
         string.append(super.toString());
-        string.append("Mala-----------").append("\n");
-        string.append("Dimensao: ").append(this.altura).append("x").append(this.largura).append("x").append(this.profundidade);
+        string.append("-------------Mala-----------").append("\n");
+        string.append("Dimensao: ").append(this.altura).append(" x ").append(this.largura).append(" x ").append(this.profundidade).append("\n");
         string.append("Material: ").append(this.material).append("\n");
-        string.append("Ano: ").append(this.anoColecao).append("\n");
+        string.append("Data: ").append(this.dataLancamento).append("\n");
         string.append("Tipo de Mala: ").append(this.tipoMala).append("\n");
         string.append("-----------------");
         return string.toString();
     }
 
     public Mala clone(){
-        Mala mala = this;
-        return mala;
+        return new Mala(this);
     }
 }

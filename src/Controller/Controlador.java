@@ -2,6 +2,7 @@ package Controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import Model.*;
 import View.*;
@@ -31,9 +32,11 @@ public class Controlador {
     public void controlador(Apresentacao a, GestorVintage gestor) throws NullPointerException{
         boolean ola = true;
         int opcao;
+        int flag = 0;
 
         while(ola){
-            a.printInicio();
+            if (flag == 0) a.printInicio();
+            flag = 1;
             a.printMenu();
             opcao = input.lerInteiro(a, "Introduza um número", 0, 6);
             switch(opcao){
@@ -73,7 +76,7 @@ public class Controlador {
             opcao = input.lerInteiro(a, "Introduza um número", 0, 7);
             switch(opcao){
                 case 1: 
-                    // comprar artigos
+                    ControladorEncomenda(gestor, a, login);
                     break;
                 case 2:
                     ControladorArtigo(gestor, a, login);
@@ -121,6 +124,7 @@ public class Controlador {
                 case 2:
                     Utilizador u = cu.registarUtilizador(gestor, a);
                     gestor.addUtilizador(u);
+                    login = new Login(u.getEmail(), u.getPassword());
                     controladorInicial(a, gestor, login);
                     ola = false;   
                     break;
@@ -142,21 +146,21 @@ public class Controlador {
 
         while(ola){
             a.printMenuVender();
-            opcao = input.lerInteiro(a, "Introduza um número", 0, 4);
+            opcao = input.lerInteiro(a, "Introduza um número", 0, 3);
             switch(opcao){
                 case 1: 
-                    Mala m = ca.criaMala(a, gestor);
+                    Mala m = ca.criaMala(a, gestor, login);
                     a.printMessage("Mala criada com sucesso!");
                     gestor.addArtigoPorVender(m, login);
                     break;
                 case 2:
-                    Sapatilhas s = ca.criaSapatilhas(a, gestor);
+                    Sapatilhas s = ca.criaSapatilhas(a, gestor, login);
                     a.printMessage("Sapato criado com sucesso!");
                     gestor.addArtigoPorVender(s, login);
                     break;
                 
                 case 3:
-                    Tshirt t = ca.criaTshirt(a, gestor);
+                    Tshirt t = ca.criaTshirt(a, gestor, login);
                     a.printMessage("Tshirt criada com sucesso!");
                     gestor.addArtigoPorVender(t, login);
                     break;
@@ -174,8 +178,9 @@ public class Controlador {
     public void ControladorTransportadora(GestorVintage gestor, Apresentacao a){
         boolean ola = true;
         int opcao;
-
+        
         while(ola){
+            Map<String, Transportadoras> transportadoras = gestor.getTransportadoras();
             a.printMenuTransportadora();
             opcao = input.lerInteiro(a, "Introduza um número", 0, 2);
             switch(opcao){
@@ -187,9 +192,10 @@ public class Controlador {
                     Transportadoras t = ct.criarTransportadora(a, gestor);
                     a.printMessage("Transportadora criada com sucesso!");
                     gestor.addTransportadora(t);
+                    
                     break;
                 case 2:
-                    // ver lista de transportadoras
+                    a.printTransportadoras(transportadoras);
                     break;
                 default:
                     a.printMessage("Opção inválida");
@@ -199,10 +205,11 @@ public class Controlador {
         }
     }
  
-    public void ControladorEncomenda(GestorVintage gestor, Apresentacao a){
+    public void ControladorEncomenda(GestorVintage gestor, Apresentacao a, Login login){
         boolean ola = true;
         int opcao;
-        List<Integer> artigosComprar = new ArrayList<>();
+        List<Artigos> artigosVenda = gestor.getArtigosVenda(login);
+        List<Artigos> artigosFinal = new ArrayList<>();
 
 
         while(ola){
@@ -210,16 +217,15 @@ public class Controlador {
             opcao = input.lerInteiro(a, "Introduza um número", 0, 6);
             switch(opcao){
                 case 1:
-                    a.printArtigosDisponiveis(artigosComprar);
-
-                    // comprar produto
+                    a.printArtigosDisponiveis(artigosVenda);
+                    ce.addArtigo(a, artigosFinal, artigosVenda, login);
 
                     break;
                 case 2:
-                    // remover produto
+                    ce.removeArtigo(a, artigosFinal, login);
                     break;
                 case 3:
-                    // terminar encomenda
+                    
                     break;
                 case 0:
                     ola = false;

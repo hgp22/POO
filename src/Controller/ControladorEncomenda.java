@@ -1,7 +1,9 @@
 package Controller;
 
+import java.time.LocalDate;
 import java.util.List;
 import Model.*;
+import Model.Encomenda.dimensaoEncomenda;
 import View.*;
 
 public class ControladorEncomenda {
@@ -12,17 +14,19 @@ public class ControladorEncomenda {
     }
 
     // adicionar artigo a encomenda
-    public List<Integer> addArtigo(Apresentacao a, List<Integer> artigosFinal, List<Integer> artigosDisponiveis) {
-        int opcao;
+    public List<Artigos> addArtigo(Apresentacao a, List<Artigos> artigosFinal, List<Artigos> artigosDisponiveis, Login login) {
+        Artigos artigo = new Artigos();
+        int opcao = -1;
         boolean ola = true;
-        while (ola) {
+        while (ola != false) {
             opcao = input.lerInteiro(a, "Introduza o artigo a adicionar", 0, 999999999);
-            if(artigosDisponiveis.contains(opcao)){
+            artigo = artigosDisponiveis.get(opcao);
+            if(artigosDisponiveis.contains(artigo)){
                 ola = false;
-                artigosFinal.add(opcao);
+                artigosFinal.add(artigo);
                 a.printMessage("Artigo adicionado");
             }
-            else if (artigosFinal.contains(opcao)){
+            else if (artigosFinal.contains(artigo)){
                 a.printMessage("Artigo já adicionado");
             } else {
                 a.printMessage("Artigo não disponível");
@@ -32,20 +36,33 @@ public class ControladorEncomenda {
     }
 
     // remover artigo a encomenda
-    public List<Integer> removeArtigo(Apresentacao a, List<Integer> artigosFinal) {
+    public List<Artigos> removeArtigo(Apresentacao a, List<Artigos> artigosFinal, Login login) {
+        Artigos artigo = new Artigos();
         int opcao;
         boolean ola = true;
         while (ola) {
             opcao = input.lerInteiro(a, "Introduza o artigo a remover", 0, 999999999);
-            if(artigosFinal.contains(opcao)){
+            artigo = artigosFinal.get(opcao);
+            if(artigosFinal.contains(artigo)){
                 ola = false;
-                artigosFinal.remove(opcao);
+                artigosFinal.remove(artigo);
                 a.printMessage("Artigo removido");
             } else {
-                a.printMessage("Artigo não adicionado");
+                a.printMessage("Artigo não existe no carrinho");
             }
         }
         return artigosFinal;
+    }
+
+    public Encomenda criarEncomenda(GestorVintage gestor, Apresentacao a, List<Artigos> artigosFinal, Login login) {
+        int tamanho = artigosFinal.size();
+        dimensaoEncomenda dimensao = gestor.dimensaoEncomenda(tamanho);
+        LocalDate data = LocalDate.now();
+        float preco = gestor.precoFinal(artigosFinal);
+
+
+        
+        return encomenda;
     }
 
 }

@@ -1,7 +1,10 @@
 package Model;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.*;
+
+import Model.Encomenda.dimensaoEncomenda;
 
 public class GestorVintage implements Serializable {
     private Map<String, Utilizador> utilizadores;
@@ -23,10 +26,10 @@ public class GestorVintage implements Serializable {
         this.encomendas = encomendas;
     }
 
-    public GestorVintage(GestorVintage gestor) {
+    public GestorVintage(GestorVintage gestor, Login login) {
         this.utilizadores = gestor.getUtilizadores();
         this.transportadoras = gestor.getTransportadoras();
-        this.artigosVenda = gestor.getArtigosVenda();
+        this.artigosVenda = gestor.getArtigosVenda(login);
         this.encomendas = gestor.getEncomendas();
     }
 
@@ -46,10 +49,12 @@ public class GestorVintage implements Serializable {
         return aux;
     }
 
-    public List<Artigos> getArtigosVenda() {
+    public List<Artigos> getArtigosVenda(Login login) {
         List<Artigos> aux = new ArrayList<>();
-        for (Artigos a : this.artigosVenda) {
-            aux.add(a.clone());
+        for (Artigos artigo : this.artigosVenda) {
+            if (artigo.getVendedor().getEmail() != login.getEmail()) {
+                aux.add(artigo.clone());
+            }
         }
         return aux;
     }
@@ -108,7 +113,7 @@ public class GestorVintage implements Serializable {
     }
     
     public void addArtigoPorVender(Artigos artigo, Login login) {
-        this.utilizadores.get(login.getEmail()).addVender(artigo);
+        artigosVenda.add(artigo);
     }
 
     public void addArtigoVenda(String cod, Login login, Encomenda e) {
@@ -144,5 +149,39 @@ public class GestorVintage implements Serializable {
     public List<Integer> listaMalasPorVender(Login login) {
 
         return null;
+    }
+
+    public Transportadoras getTransportadora(String nome) {
+        return transportadoras.get(nome);
+    }
+
+    public Utilizador getUtilizador(String email) {
+        return utilizadores.get(email);
+    }
+
+    public dimensaoEncomenda dimensaoEncomenda(int tamanho){
+        if(tamanho < 2) return dimensaoEncomenda.PEQUENA;
+        else if(tamanho < 5) return dimensaoEncomenda.MEDIA;
+        else return dimensaoEncomenda.GRANDE;
+    }
+
+    public float precoFinal (List<Artigos> artigosFinal){
+        float preco = 0;
+        for (Artigos artigo : artigosFinal) {
+            if (artigo instanceof Mala){
+                Mala mala = (Mala) artigo;
+                preco += mala.precoMala();
+            }
+            else if (artigo instanceof Sapatilhas){
+                Sapatilhas sapatilhas = (Sapatilhas) artigo;
+                preco += sapatilhas.precoSapatilhas();
+            }
+            else if (artigo instanceof Tshirt){
+                Tshirt Tshirt = (Tshirt) artigo;
+                preco += Tshirt.precoTshirt();
+            }
+        }
+        
+        return preco;
     }
 }

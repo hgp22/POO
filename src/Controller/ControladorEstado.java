@@ -28,17 +28,6 @@ public class ControladorEstado {
         }
     }
 
-    public void carregarEstado(Apresentacao a, GestorVintage gestor){
-        String s = this.input.lerString(a, "Introduza o nome do ficheiro .dat a carregar: ");
-        try{
-            Estados.carregarEstado(s + ".dat", gestor);
-            a.printMessage("Estado carregado com sucesso!");
-        } catch (ClassNotFoundException | IOException e) {
-            a.printMessage("Ficheiro nao existente!");
-            e.printStackTrace();
-        }
-    }
-
     public GestorVintage loadEstado(Apresentacao a){
         String s = this.input.lerString(a, "Introduza o nome do ficheiro .dat a carregar: ");
         GestorVintage gestorLoaded = new GestorVintage();

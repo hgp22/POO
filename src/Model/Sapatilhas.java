@@ -23,9 +23,9 @@ public class Sapatilhas extends Artigos {
     }
 
     public Sapatilhas(String descricao, String marca, String cod, float precoBase, float desconto, int novoUsado,
-                      EstadoArtigo estado, int numDonos,float tamanho, boolean atacadores, String cor, LocalDate dataLancamento,
+                      EstadoArtigo estado, int numDonos, Transportadoras transportadora, Utilizador vendedor, float tamanho, boolean atacadores, String cor, LocalDate dataLancamento,
                       TipoSapatilhas tipoSapatilhas) {
-        super(descricao, marca, cod, precoBase, desconto, novoUsado, estado, numDonos);
+        super(descricao, marca, cod, precoBase, desconto, novoUsado, estado, numDonos, transportadora, vendedor);
         this.tamanho = tamanho;
         this.atacadores = atacadores;
         this.cor = cor;
@@ -94,7 +94,6 @@ public class Sapatilhas extends Artigos {
     }
 
     public Sapatilhas clone() {
-        Sapatilhas clone = (Sapatilhas) super.clone();
         return new Sapatilhas(this);
     }
 
@@ -115,25 +114,27 @@ public class Sapatilhas extends Artigos {
          float pb = super.getPrecoBase();
          int donos = super.getNumDonos();
 
-         if(tamanho > 45 || super.getNovoUsado() == 1){
-             if(this.getEstado() == EstadoArtigo.MUITO_GASTO){
-                 pb = (float)(pb * (1 / donos) * 0.5);
-             }
-             if(this.getEstado() == EstadoArtigo.GASTO){
-                 pb = (float)(pb * (1 / donos) * 0.25);
-             }
-             if(this.getEstado() == EstadoArtigo.QUASE_NOVO){
-                 pb = (float)(pb * (1 / donos) * 0.1);
-             }
-             return pb;
-         } else return pb;
+         if (this.getTipo() == TipoSapatilhas.REGULAR){
+            if(tamanho > 45 || super.getNovoUsado() == 1){
+                if(this.getEstado() == EstadoArtigo.MUITO_GASTO){
+                    pb = (float)(pb * (1 / donos) * 0.5);
+                }
+                if(this.getEstado() == EstadoArtigo.GASTO){
+                    pb = (float)(pb * (1 / donos) * 0.25);
+                }
+                if(this.getEstado() == EstadoArtigo.QUASE_NOVO){
+                    pb = (float)(pb * (1 / donos) * 0.1);
+                }
+                return pb - this.getDesconto();
+         } else return pb - this.getDesconto();
     }
+            else pb = precoSapatilhasPremium();
+            return pb;
+}
 
     public float precoSapatilhasPremium(){
         float pp = getPrecoBase();
-        if(tipoSapatilhas == TipoSapatilhas.PREMIUM){
-            pp = (float)(pp * (1.20 *(LocalDate.now().getYear() - this.dataLancamento.getYear())));
-        }
+        pp = (float)(pp * (1.10 *(LocalDate.now().getYear() - this.dataLancamento.getYear())));
         return pp;
     }
 }

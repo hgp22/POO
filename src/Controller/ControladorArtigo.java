@@ -1,11 +1,16 @@
 package Controller;
 
 import java.time.LocalDate;
+import java.util.Map;
 
+import Model.Artigos;
 import Model.GestorVintage;
+import Model.Login;
 import Model.Mala;
 import Model.Sapatilhas;
+import Model.Transportadoras;
 import Model.Tshirt;
+import Model.Utilizador;
 import View.Apresentacao;
 import View.Prints;
 
@@ -16,9 +21,10 @@ public class ControladorArtigo {
         this.input = new Input();
     }
 
-     public Tshirt criaTshirt(Apresentacao a, GestorVintage gestor){
+     public Tshirt criaTshirt(Apresentacao a, GestorVintage gestor, Login login){
         Tshirt.EstadoArtigo estado = null;
         int numDonos = 0;
+        Map<String, Transportadoras> transportadoras = gestor.getTransportadoras();
 
         a.printMessage("---------------  TSHIRT ---------------");
         String descricao = this.input.lerString(a, "Insira a descricao da tshirt: ");
@@ -36,13 +42,19 @@ public class ControladorArtigo {
         Tshirt.Tamanho tamanho = Tshirt.Tamanho.valueOf(tamanho1);
         String padrao1 = this.input.lerString(a, "Insira o padrao da tshirt [LISO,RISCAS,PALMEIRAS]: ");
         Tshirt.Padrao padrao = Tshirt.Padrao.valueOf(padrao1);
+        a.printTransportadoras(transportadoras);
+        String transportadora1 = this.input.lerString(a, "Insira a transportadora da tshirt: ");
+        Transportadoras transportadora = transportadoras.get(transportadora1);
+        Utilizador vendedor = gestor.getUtilizadores().get(login.getEmail());
+        
 
-        return new Tshirt(descricao, marca, codigo, precoBase, desconto, novoUsado, estado, numDonos, tamanho, padrao);
+        return new Tshirt(descricao, marca, codigo, precoBase, desconto, novoUsado, estado, numDonos, transportadora, vendedor, tamanho, padrao);
      }
 
-    public Mala criaMala(Apresentacao a, GestorVintage gestor){
+    public Mala criaMala(Apresentacao a, GestorVintage gestor, Login login){
         Mala.EstadoArtigo estado = null;
         int numDonos = 0;
+        Map<String, Transportadoras> transportadoras = gestor.getTransportadoras();
 
         a.printMessage("---------------  MALA ---------------");
         String marca = this.input.lerString(a, "Insira a marca da mala: ");
@@ -63,13 +75,18 @@ public class ControladorArtigo {
         String codigo = this.input.lerString(a, "Insira o codigo da mala: ");
         float precoBase = this.input.lerFloat(a, "Insira o preco base da mala: ", 0, 1000000000);
         float desconto = this.input.lerFloat(a, "Insira o desconto da mala: ", 0, 1000000000);
+        a.printTransportadoras(transportadoras);
+        String transportadora1 = this.input.lerString(a, "Insira a transportadora da tshirt: ");
+        Transportadoras transportadora = transportadoras.get(transportadora1);
+        Utilizador vendedor = gestor.getUtilizadores().get(login.getEmail());
 
-        return new Mala(descricao, marca, codigo, precoBase, desconto, novoUsado, estado, numDonos, altura, largura, profundidade, material, anoColecao, tipoMala);
+        return new Mala(descricao, marca, codigo, precoBase, desconto, novoUsado, estado, numDonos, transportadora, vendedor, altura, largura, profundidade, material, anoColecao, tipoMala);
     }
 
-    public Sapatilhas criaSapatilhas(Apresentacao a, GestorVintage gestor){
+    public Sapatilhas criaSapatilhas(Apresentacao a, GestorVintage gestor, Login login){
         Sapatilhas.EstadoArtigo estado = null;
         int numDonos = 0;
+        Map<String, Transportadoras> transportadoras = gestor.getTransportadoras();
 
         a.printMessage("---------------  SAPATILHAS ---------------");
         String marca = this.input.lerString(a, "Insira a marca das sapatilhas: ");
@@ -89,8 +106,14 @@ public class ControladorArtigo {
         float precoBase = this.input.lerFloat(a, "Insira o preco base das sapatilhas: ", 0, 1000000000);
         float desconto = this.input.lerFloat(a, "Insira o desconto das sapatilhas: ", 0, 1000000000);
         LocalDate dataLancamento = this.input.lerData(a, "Insira a data de lancamento das sapatilhas: ");
+        a.printTransportadoras(transportadoras);
+        String transportadora1 = this.input.lerString(a, "Insira a transportadora da tshirt: ");
+        Transportadoras transportadora = transportadoras.get(transportadora1);
+        Utilizador vendedor = gestor.getUtilizadores().get(login.getEmail());
+        
 
-        return new Sapatilhas(descricao, marca, codigo, precoBase, desconto, novoUsado, estado, numDonos, tamanho, atacadores, cor, dataLancamento, tipoSapatilhas);   
+
+        return new Sapatilhas(descricao, marca, codigo, precoBase, desconto, novoUsado, estado, numDonos, transportadora, vendedor, tamanho, atacadores, cor, dataLancamento, tipoSapatilhas);   
     }
     
 }

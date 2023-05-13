@@ -24,8 +24,8 @@ public class Tshirt extends Artigos {
     }
 
     public Tshirt(String descricao, String marca, String cod, float precoBase, float desconto, int novoUsado, EstadoArtigo estado,
-                  int numDonos,Tamanho tamanho, Padrao padrao) {
-        super(descricao, marca, cod, precoBase, desconto, novoUsado, estado, numDonos);
+                  int numDonos, Transportadoras transportadora, Utilizador vendedor, Tamanho tamanho, Padrao padrao) {
+        super(descricao, marca, cod, precoBase, desconto, novoUsado, estado, numDonos, transportadora, vendedor);
         this.tamanho = tamanho;
         this.padrao = padrao;
     }
@@ -58,7 +58,7 @@ public class Tshirt extends Artigos {
         if(this.padrao != Padrao.LISO && super.getNovoUsado() == 1)
             return pb * 0.5;
 
-        return pb;
+        return pb - this.getDesconto();
     }
 
     public boolean equals(Object o){

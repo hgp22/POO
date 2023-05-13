@@ -1,6 +1,10 @@
 package View;
 
 import java.util.List;
+import java.util.Map;
+
+import Model.Artigos;
+import Model.Transportadoras;
 
 public class Apresentacao {
     private ApresentacaoMenu ap;
@@ -43,7 +47,11 @@ public class Apresentacao {
         this.prints.printMessage(message);
     }
 
-    public void printArtigosDisponiveis(List<Integer> artigosDisponiveis) {
+    public void printArtigosDisponiveis(List<Artigos> artigosDisponiveis) {
         this.ap.printArtigosDisponiveis(artigosDisponiveis);
+    }
+
+    public void printTransportadoras(Map <String, Transportadoras> transportadoras) {
+        this.ap.printTransportadoras(transportadoras);
     }
 }

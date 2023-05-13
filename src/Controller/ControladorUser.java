@@ -50,5 +50,6 @@ public class ControladorUser {
     public void logout(){
         this.login = false;
     }
+
     
 }

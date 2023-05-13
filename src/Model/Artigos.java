@@ -16,6 +16,8 @@ public class Artigos implements Serializable {
     }
     private EstadoArtigo estado;
     private int numDonos;
+    private Transportadoras transportadora;
+    private Utilizador vendedor;
 
     public Artigos(){
         this.descricao = "";
@@ -26,9 +28,11 @@ public class Artigos implements Serializable {
         this.novoUsado = 0;
         this.estado = null;
         this.numDonos = 0;
+        this.transportadora = null;
+        this.vendedor = null;
     }
 
-    public Artigos(String descricao, String marca, String cod, float precoBase, float desconto, int novoUsado, EstadoArtigo estado,int numDonos) {
+    public Artigos(String descricao, String marca, String cod, float precoBase, float desconto, int novoUsado, EstadoArtigo estado,int numDonos, Transportadoras transportadora, Utilizador vendedor) {
         this.descricao = descricao;
         this.marca = marca;
         this.cod = cod;
@@ -37,6 +41,7 @@ public class Artigos implements Serializable {
         this.novoUsado = novoUsado;
         this.estado = estado;
         this.numDonos = numDonos;
+        this.transportadora = transportadora;
     }
 
     public Artigos (Artigos artigo) {
@@ -48,6 +53,8 @@ public class Artigos implements Serializable {
         this.novoUsado = artigo.getNovoUsado();
         this.estado = artigo.getEstado();
         this.numDonos = artigo.getNumDonos();
+        this.transportadora = artigo.getTransportadora();
+        this.vendedor = artigo.getVendedor();
     }
 
     /**
@@ -179,6 +186,46 @@ public class Artigos implements Serializable {
         this.numDonos = numDonos;
     }
 
+    /**
+     * devolve a transportadora do artigo
+     * @return transportadora
+     */
+
+    public Transportadoras getTransportadora() {
+        return transportadora;
+
+    }
+
+    /**
+     * altera a transportadora do artigo
+     * @param transportadora
+     */
+
+    public void setTransportadora(Transportadoras transportadora) {
+        this.transportadora = transportadora;
+
+    }
+
+    /**
+     * devolve o vendedor do artigo
+     * @return vendedor
+     */
+
+    public Utilizador getVendedor() {
+        return vendedor;
+    }
+
+    /**
+     * altera o vendedor do artigo
+     * @param vendedor
+     */
+
+    public void setVendedor(Utilizador vendedor) {
+        this.vendedor = vendedor;
+    }
+
+
+
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || this.getClass() != o.getClass()) return false;
@@ -210,6 +257,7 @@ public class Artigos implements Serializable {
     public Artigos clone() {
         return new Artigos(this);
     }
+
 
 
 

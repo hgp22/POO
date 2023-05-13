@@ -1,6 +1,10 @@
 package View;
 
 import java.util.List;
+import java.util.Map;
+
+import Model.Artigos;
+import Model.Transportadoras;
 
 public class ApresentacaoMenu {
     private Prints prints;
@@ -47,11 +51,19 @@ public class ApresentacaoMenu {
         this.prints.printMenu(new String[]{"Criar Nova Transportadora", "Ver Transportadoras"}, "         MENU TRANSPORTADORA", 0);
     }
 
-    public void printArtigosDisponiveis(List<Integer> artigosDisponiveis) {
+    public void printArtigosDisponiveis(List<Artigos> artigosDisponiveis) {
         System.out.println("Artigos disponiveis:");
         for (int i = 0; i < artigosDisponiveis.size(); i++) {
-            System.out.println((i + 1) + " - " + artigosDisponiveis.get(i));
+            System.out.println(i + " - " + artigosDisponiveis.get(i));
         }
     }
+
+    public void printTransportadoras(Map <String, Transportadoras> transportadoras) {
+        System.out.println("Transportadoras disponiveis:");
+        for (String s : transportadoras.keySet()) {
+            System.out.println(s);
+        }
+    }
+    
 }
 
