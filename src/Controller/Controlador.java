@@ -233,6 +233,7 @@ public class Controlador {
                     ce.removeArtigo(a, artigosFinal, login);
                     break;
                 case 3:
+                    if (artigosFinal.isEmpty()) {a.printMessage("Não existem artigos no carrinho"); break;}
                     Artigos artigo = artigosFinal.get(0);
                     Transportadoras t = artigo.getTransportadora();
                     Encomenda e = ce.criarEncomenda(gestor, artigosFinal, login, t);
