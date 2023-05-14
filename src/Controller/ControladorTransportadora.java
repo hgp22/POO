@@ -1,5 +1,7 @@
 package Controller;
 
+import java.util.Map;
+
 import Model.GestorVintage;
 import Model.Transportadoras;
 import View.Apresentacao;
@@ -24,6 +26,16 @@ public class ControladorTransportadora {
             a.printMessage("Transportadora criada com sucesso!");
             return new Transportadoras(nome, transportaPremium, lucro);
         }
+    }
+
+    public Transportadoras maiorVolume(Map<String, Transportadoras> transportadoras) {
+        Transportadoras maior = null;
+        for (Transportadoras t : transportadoras.values()) {
+            if (maior == null || t.getVolumeFaturado() > maior.getVolumeFaturado()) {
+                maior = t;
+            }
+        }
+        return maior;
     }
 
     

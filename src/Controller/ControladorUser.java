@@ -51,5 +51,20 @@ public class ControladorUser {
         this.login = false;
     }
 
+    public void utlizadorVendas(GestorVintage gestor, Apresentacao a){    
+        String email = input.lerString(a, "Introduza o email do utilizador");
+        Utilizador u = gestor.getUtilizador(email);
+        if (u != null){
+            List<Artigos> artigos = gestor.artigosVendidosUtilizador(u);
+            for(Artigos artigo : artigos){
+                artigo.toString();
+            }
+        }
+        else{
+                a.printMessage("Utilizador não existe");
+        }
+    }
+    
+
     
 }

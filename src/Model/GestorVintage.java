@@ -31,11 +31,11 @@ public class GestorVintage implements Serializable {
         this.data = LocalDate.now();
     }
 
-    public GestorVintage(GestorVintage gestor, Login login) {
+    public GestorVintage(GestorVintage gestor) {
         this.utilizadores = gestor.getUtilizadores();
         this.transportadoras = gestor.getTransportadoras();
-        this.artigosVenda = gestor.getArtigosVenda(login);
-        this.encomendas = gestor.getEncomendas(login);
+        this.artigosVenda = gestor.getArtigosVenda();
+        this.encomendas = gestor.getEncomendas();
         this.data = gestor.getData();
     }
 
@@ -55,22 +55,18 @@ public class GestorVintage implements Serializable {
         return aux;
     }
 
-    public List<Artigos> getArtigosVenda(Login login) {
+    public List<Artigos> getArtigosVenda() {
         List<Artigos> aux = new ArrayList<>();
         for (Artigos artigo : this.artigosVenda) {
-            if (artigo.getVendedor().getEmail() != login.getEmail()) {
                 aux.add(artigo.clone());
-            }
         }
         return aux;
     }
 
-    public Map<Integer, Encomenda> getEncomendas(Login login) {
+    public Map<Integer, Encomenda> getEncomendas() {
         Map<Integer, Encomenda> aux = new HashMap<>();
         for (Map.Entry<Integer, Encomenda> entry : this.encomendas.entrySet()) {
-            if (entry.getValue().getComprador().getEmail() == login.getEmail()) {
                 aux.put(entry.getKey(), entry.getValue().clone());
-            }
         }
         return aux;
     }
@@ -140,6 +136,16 @@ public class GestorVintage implements Serializable {
 
     public boolean existeTransportadora(String nome) {
         return transportadoras.containsKey(nome);
+    }
+
+    public List<Artigos> getArtigosDisponiveis(Login login) {
+        List<Artigos> aux = new ArrayList<>();
+        for (Artigos artigo : this.artigosVenda) {
+            if (artigo.getVendedor().getEmail() != login.getEmail()) {
+                aux.add(artigo.clone());
+            }
+        }
+        return aux;
     }
 
     // verificar se existe o utilizador
@@ -236,6 +242,16 @@ public class GestorVintage implements Serializable {
         }
     }
 
+    public Map<Integer, Encomenda> getEncomendasComprador(Login login) {
+        Map<Integer, Encomenda> aux = new HashMap<>();
+        for (Map.Entry<Integer, Encomenda> entry : this.encomendas.entrySet()) {
+            if (entry.getValue().getComprador().getEmail() == login.getEmail()) {
+                aux.put(entry.getKey(), entry.getValue().clone());
+            }
+        }
+        return aux;
+    }
+
     public void atualizaEstadoEncomenda(Map<Integer, Encomenda> encomendas, LocalDate data){
         for (Map.Entry<Integer, Encomenda> entry : encomendas.entrySet()) {
             if(DAYS.between(entry.getValue().getDataCompra(), data) > 3){
@@ -257,9 +273,13 @@ public class GestorVintage implements Serializable {
         dimensaoEncomenda dimensao = encomenda.getDimensao();
         float precoExpedicao = precoExpedicao(dimensao, transportadora);
         for (Artigos artigo : artigosFinal) {
+            float extra = 0.0F;
+            if (artigo.getNovoUsado() == 0) extra = 0.5F;
+            else if (artigo.getNovoUsado() == 1) extra = 0.25F;
             artigo.getVendedor().setFaturado(artigo.getVendedor().getFaturado() + precoArtigo(artigo));
-            artigo.getTransportadora().setFaturado(artigo.getTransportadora().getFaturado() + precoExpedicao);
-            getArtigosVenda(null).remove(artigo);
+            artigo.getTransportadora().setFaturado(artigo.getTransportadora().getFaturado() + precoExpedicao + extra);
+            artigo.getTransportadora().setVolumeFaturado(artigo.getTransportadora().getVolumeFaturado() + 1);
+            getArtigosVenda().remove(artigo);
         }
     }
 
@@ -268,4 +288,51 @@ public class GestorVintage implements Serializable {
         atualizaEstadoEncomenda(this.encomendas, this.data);
         return this;
     }
+
+    public Utilizador utilizadorMaisFaturado (LocalDate inicio, LocalDate fim){
+        float maior = 0;
+        float faturado = 0;
+        for(Utilizador utilizador : utilizadores.values()){
+            for (Encomenda encomenda : this.getEncomendas().values()) {
+                if(encomenda.getDataCompra().isAfter(inicio) && encomenda.getDataCompra().isBefore(fim)){
+                    for(Artigos artigo : encomenda.getArtigos()){
+                        if(artigo.getVendedor().equals(utilizador)){
+                            faturado += precoArtigo(artigo);
+                        }
+                    }
+                }
+            }
+            if(faturado > maior){
+                maior = faturado;
+            }
+        }
+        for(Utilizador utilizador : utilizadores.values()){
+            for (Encomenda encomenda : this.getEncomendas().values()) {
+                if(encomenda.getDataCompra().isAfter(inicio) && encomenda.getDataCompra().isBefore(fim)){
+                    for(Artigos artigo : encomenda.getArtigos()){
+                        if(artigo.getVendedor().equals(utilizador)){
+                            faturado += precoArtigo(artigo);
+                        }
+                    }
+                }
+            }
+            if(faturado == maior){
+                return utilizador;
+            }
+        }
+        return null;
+    }
+
+    public List<Artigos> artigosVendidosUtilizador (Utilizador utilizador){
+        List<Artigos> artigos = new ArrayList<>();
+        for (Encomenda encomenda : this.getEncomendas().values()) {
+            for(Artigos artigo : encomenda.getArtigos()){
+                if(artigo.getVendedor().equals(utilizador)){
+                    artigos.add(artigo);
+                }
+            }
+        }
+        return artigos;
+    }
 }
+

@@ -239,7 +239,9 @@ public class Artigos implements Serializable {
                 this.desconto == artigo.getDesconto() &&
                 this.novoUsado == artigo.getNovoUsado() &&
                 this.estado == artigo.getEstado() &&
-                this.numDonos == artigo.getNumDonos();
+                this.numDonos == artigo.getNumDonos() &&
+                this.transportadora == artigo.getTransportadora() &&
+                this.vendedor == artigo.getVendedor();
     }
 
     @Override
@@ -253,6 +255,8 @@ public class Artigos implements Serializable {
         tsArtigo.append("Novo(1) / Usado(0): ").append(this.novoUsado).append("\n");
         tsArtigo.append("Estado: ").append(this.estado).append("\n");
         tsArtigo.append("Número de donos: ").append(this.numDonos).append("\n");
+        tsArtigo.append("Transportadora: ").append(this.transportadora).append("\n");
+        tsArtigo.append("Vendedor: ").append(this.vendedor).append("\n");
         return tsArtigo.toString();
     }
     public Artigos clone() {

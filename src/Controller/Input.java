@@ -68,6 +68,7 @@ public class Input implements Serializable {
         LocalDate data = null;
         boolean flag = true;
         do{
+            a.printMessage(string);
             try{
                 String line = this.sc.nextLine();
                 data = LocalDate.parse(line);

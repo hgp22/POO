@@ -2,9 +2,9 @@ package Controller;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+
 import Model.*;
-import Model.Encomenda.dimensaoEncomenda;
-import Model.Encomenda.estadoEncomenda;
 import View.*;
 
 public class ControladorEncomenda {
@@ -70,6 +70,14 @@ public class ControladorEncomenda {
 
     public void cancelarEncomenda(GestorVintage gestor, Encomenda encomenda, Login login) {
         gestor.cancelarEncomenda(encomenda, login);
+    }
+
+    public float lucroTotal(Map<Integer, Encomenda> encomendas) {
+        float lucro = 0;
+        for (Encomenda e : encomendas.values()) {
+            lucro += e.getPrecoFinal();
+        }
+        return lucro;
     }
 
 

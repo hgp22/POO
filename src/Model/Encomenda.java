@@ -124,6 +124,7 @@ public class Encomenda implements Serializable {
         sb.append(", precoFinal=").append(precoFinal);
         sb.append(", estado=").append(estado);
         sb.append(", dataCompra=").append(dataCompra);
+        sb.append(", comprador=").append(comprador);
         sb.append('}');
         return sb.toString();
     }
@@ -137,6 +138,7 @@ public class Encomenda implements Serializable {
                 getArtigos().equals(encomenda.getArtigos()) &&
                 getDimensao() == encomenda.getDimensao() &&
                 getEstado() == encomenda.getEstado() &&
-                getDataCompra().equals(encomenda.getDataCompra());
+                getDataCompra().equals(encomenda.getDataCompra()) &&
+                getComprador().equals(encomenda.getComprador());
     }
 }

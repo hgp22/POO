@@ -55,4 +55,8 @@ public class Apresentacao {
     public void printTransportadoras(Map <String, Transportadoras> transportadoras) {
         this.ap.printTransportadoras(transportadoras);
     }
+
+    public void printMenuEstatisticas() {
+        this.ap.printMenuEstatisticas();
+    }
 }

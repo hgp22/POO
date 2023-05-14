@@ -127,6 +127,7 @@ public class Utilizador extends Login{
                 ", nome='" + nome + '\'' +
                 ", morada='" + morada + '\'' +
                 ", numeroFiscal=" + numeroFiscal +
+                ", faturado=" + faturado +
                 ", produtosComprados=" + produtosComprados +
                 ", produtosVendidos=" + produtosVendidos +
                 ", produtosAVenda=" + produtosAVenda +
@@ -141,6 +142,7 @@ public class Utilizador extends Login{
                 getnumeroFiscal() == that.getnumeroFiscal() &&
                 getNome().equals(that.getNome()) &&
                 getMorada().equals(that.getMorada()) &&
+                getFaturado() == that.getFaturado() &&
                 getProdutosComprados().equals(that.getProdutosComprados()) &&
                 getProdutosVendidos().equals(that.getProdutosVendidos()) &&
                 getProdutosAVenda().equals(that.getProdutosAVenda());

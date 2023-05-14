@@ -8,6 +8,7 @@ public class Transportadoras implements Serializable {
     private float imposto;
     private float lucro;
     private float faturado;
+    private int volumeFaturado;
     
     public Transportadoras(){
         this.nome = "";
@@ -15,6 +16,7 @@ public class Transportadoras implements Serializable {
         this.imposto = 0.3F;
         this.lucro = 0.0F;
         this.faturado = 0.0F;
+        this.volumeFaturado = 0;
     }
 
     public Transportadoras(String nome, boolean transportaPremium, float lucro) {
@@ -23,6 +25,7 @@ public class Transportadoras implements Serializable {
         this.imposto = 0.3F;
         this.lucro = lucro;
         this.faturado = 0.0F;
+        this.volumeFaturado = 0;
     }
 
     public Transportadoras(Transportadoras transportadora) {
@@ -31,6 +34,7 @@ public class Transportadoras implements Serializable {
         this.imposto = transportadora.getImposto();
         this.lucro = transportadora.getLucro();
         this.faturado = transportadora.getFaturado();
+        this.volumeFaturado = transportadora.getVolumeFaturado();
     }
 
     public String getNome() {
@@ -74,6 +78,14 @@ public class Transportadoras implements Serializable {
         this.faturado = faturado;
     }
 
+    public int getVolumeFaturado() {
+        return volumeFaturado;
+    }
+
+    public void setVolumeFaturado(int volumeFaturado) {
+        this.volumeFaturado = volumeFaturado;
+    }
+
     public Transportadoras clone(){
         return new Transportadoras(this);
     }
@@ -84,18 +96,20 @@ public class Transportadoras implements Serializable {
                 ", transportaPremium=" + transportaPremium +
                 ", imposto=" + imposto +
                 ", lucro=" + lucro +
+                ", faturado=" + faturado +
+                ", volumeFaturado=" + volumeFaturado +
                 '}';
     }
 
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || this.getClass() != o.getClass()) return false;
-
-        Transportadoras transportadora = (Transportadoras) o;
-
-        if (getTransportaPremium() != transportadora.getTransportaPremium()) return false;
-        if (Float.compare(transportadora.getImposto(), getImposto()) != 0) return false;
-        if (Float.compare(transportadora.getLucro(), getLucro()) != 0) return false;
-        return getNome().equals(transportadora.getNome());
+        if (!(o instanceof Transportadoras)) return false;
+        Transportadoras that = (Transportadoras) o;
+        return getNome().equals(that.getNome()) &&
+                getTransportaPremium() == that.getTransportaPremium() &&
+                getImposto() == that.getImposto() &&
+                getLucro() == that.getLucro() &&
+                getFaturado() == that.getFaturado() &&
+                getVolumeFaturado() == that.getVolumeFaturado();
     }
 }

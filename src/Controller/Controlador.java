@@ -1,5 +1,6 @@
 package Controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -88,9 +89,9 @@ public class Controlador {
                     ControladorTransportadora(gestor, a);
                     break;
                 case 4:
-                    gestor.getEncomendas(login);
+                    gestor.getEncomendasComprador(login);
                     int encomenda = input.lerInteiro(a, "Indique a encomenda que deseja cancelar", 0,100);
-                    Encomenda e = gestor.getEncomendas(login).get(encomenda);
+                    Encomenda e = gestor.getEncomendasComprador(login).get(encomenda);
                     if (e == null) a.printMessage("Encomenda não existe");
                     else if (e.getEstado() == estadoEncomenda.EXPEDIDA || e.getEstado() == estadoEncomenda.PENDENTE){
                         gestor.cancelarEncomenda(e, login);
@@ -99,7 +100,7 @@ public class Controlador {
                     else a.printMessage("Não foi possível cancelar a encomenda");
                     break;
                 case 5:
-                    // estatisticas
+                    ControladorEstatisticas(gestor, a, login);
                     break;
                 case 6:                
                     ola = false;
@@ -216,7 +217,7 @@ public class Controlador {
     public void ControladorEncomenda(GestorVintage gestor, Apresentacao a, Login login){
         boolean ola = true;
         int opcao;
-        List<Artigos> artigosVenda = gestor.getArtigosVenda(login);
+        List<Artigos> artigosVenda = gestor.getArtigosDisponiveis(login);
         List<Artigos> artigosFinal = new ArrayList<>();
 
 
@@ -248,6 +249,45 @@ public class Controlador {
             }
         }
 
+    }
+
+    public void ControladorEstatisticas(GestorVintage gestor, Apresentacao a, Login login){
+        boolean ola = true;
+        int opcao;
+        Map<Integer, Encomenda> encomendas = gestor.getEncomendas();
+        Map<String, Utilizador> utilizadores = gestor.getUtilizadores();
+        Map<String, Transportadoras> transportadoras = gestor.getTransportadoras();
+
+        while(ola){
+            a.printMenuEstatisticas();
+            opcao = input.lerInteiro(a, "Introduza um número", 0, 5);
+            switch(opcao){
+                case 1:
+                    LocalDate inicio = input.lerData(a, "Introduza a data inicial");
+                    LocalDate fim = input.lerData(a, "Introduza a data final");
+                    a.printMessage("O utilizador com mais vendas entre " + inicio + " e " + fim + " é " + gestor.utilizadorMaisFaturado(inicio, fim).getNome());
+                    break;
+                case 2:
+                    a.printMessage("A transportadora com maior volume de faturação é " + ct.maiorVolume(transportadoras).getNome() + " com um total de " + ct.maiorVolume(transportadoras).getVolumeFaturado() + " produtos vendidos");
+                    break;
+                case 3:
+                    cu.utlizadorVendas(gestor, a);
+                    break;
+                case 4:
+                    // ordenar maiores compradores
+                    break;
+                case 5:
+                    a.printMessage("A Vintage fez um total de " + ce.lucroTotal(encomendas) + "€ em encomendas");
+                    break;
+                case 0:
+                    ola = false;
+                    break;
+                default:
+                    a.printMessage("Opção inválida");
+                    break;
+            
+            }
+        }
     }
 
 }
