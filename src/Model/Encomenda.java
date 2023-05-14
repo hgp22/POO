@@ -23,6 +23,7 @@ public class Encomenda implements Serializable {
     private float precoFinal;
     private estadoEncomenda estado;
     private LocalDate dataCompra;
+    private Utilizador comprador;
 
     public Encomenda() {
         this.id = idEncomenda++;
@@ -31,16 +32,17 @@ public class Encomenda implements Serializable {
         this.precoFinal = 0.0F;
         this.estado = null;
         this.dataCompra = LocalDate.now();
+        this.comprador = null;
     }
 
-    public Encomenda(List<Artigos> artigos, dimensaoEncomenda dimensao, float precoFinal, estadoEncomenda estado, LocalDate dataCompra) {
+    public Encomenda(List<Artigos> artigos, dimensaoEncomenda dimensao, float precoFinal, estadoEncomenda estado, LocalDate dataCompra, Utilizador comprador) {
         this.id = idEncomenda++;
         this.artigos = artigos;
         this.dimensao = dimensao;
         this.precoFinal = precoFinal;
         this.estado = estado;
         this.dataCompra = dataCompra;
-        
+        this.comprador = comprador;
     }
 
     public Encomenda(Encomenda encomenda) {
@@ -50,6 +52,7 @@ public class Encomenda implements Serializable {
         this.precoFinal = encomenda.getPrecoFinal();
         this.estado = encomenda.getEstado();
         this.dataCompra = encomenda.getDataCompra();
+        this.comprador = encomenda.getComprador();
     }
 
     public int getId() {
@@ -98,6 +101,14 @@ public class Encomenda implements Serializable {
 
     public void setDataCompra(LocalDate dataCompra) {
         this.dataCompra = dataCompra;
+    }
+
+    public Utilizador getComprador() {
+        return comprador;
+    }
+
+    public void setComprador(Utilizador comprador) {
+        this.comprador = comprador;
     }
 
     public Encomenda clone() {

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import Model.*;
+import Model.Encomenda.estadoEncomenda;
 import View.*;
 
 
@@ -29,7 +30,7 @@ public class Controlador {
 
     // ============================================================================================ //
 
-    public void controlador(Apresentacao a, GestorVintage gestor) throws NullPointerException{
+    public void controlador(GestorVintage gestor, Apresentacao a) throws NullPointerException{
         boolean ola = true;
         int opcao;
         int flag = 0;
@@ -47,7 +48,9 @@ public class Controlador {
                     ControladorTransportadora(gestor, a);
                     break;
                 case 3:
-                    //avancar no tempo
+                    int dias = input.lerInteiro(a, "Introduza o número de dias", 0, 999999999);
+                    gestor.avancarTempo(dias);
+                    a.printMessage("Tempo foi avançado em " + dias + " dias");
                     break;
                 case 4:
                     gestor = cestado.loadEstado(a); 
@@ -67,7 +70,7 @@ public class Controlador {
         
     }
 
-    public void controladorInicial(Apresentacao a, GestorVintage gestor, Login login){
+    public void controladorInicial(GestorVintage gestor, Apresentacao a, Login login){
         boolean ola = true;
         int opcao;
 
@@ -85,7 +88,15 @@ public class Controlador {
                     ControladorTransportadora(gestor, a);
                     break;
                 case 4:
-                    // devolver encomenda
+                    gestor.getEncomendas(login);
+                    int encomenda = input.lerInteiro(a, "Indique a encomenda que deseja cancelar", 0,100);
+                    Encomenda e = gestor.getEncomendas(login).get(encomenda);
+                    if (e == null) a.printMessage("Encomenda não existe");
+                    else if (e.getEstado() == estadoEncomenda.EXPEDIDA || e.getEstado() == estadoEncomenda.PENDENTE){
+                        gestor.cancelarEncomenda(e, login);
+                        a.printMessage("Encomenda cancelada com sucesso!");
+                    }
+                    else a.printMessage("Não foi possível cancelar a encomenda");
                     break;
                 case 5:
                     // estatisticas
@@ -117,7 +128,7 @@ public class Controlador {
             switch(opcao){
                 case 1: 
                     if((login = cu.login(gestor, a)) != null){
-                        controladorInicial(a, gestor, login);
+                        controladorInicial(gestor, a, login);
                         ola = false;
                     } 
                     break;
@@ -125,7 +136,7 @@ public class Controlador {
                     Utilizador u = cu.registarUtilizador(gestor, a);
                     gestor.addUtilizador(u);
                     login = new Login(u.getEmail(), u.getPassword());
-                    controladorInicial(a, gestor, login);
+                    controladorInicial(gestor, a, login);
                     ola = false;   
                     break;
                 case 0:
@@ -184,15 +195,12 @@ public class Controlador {
             a.printMenuTransportadora();
             opcao = input.lerInteiro(a, "Introduza um número", 0, 2);
             switch(opcao){
-
                 case 0:
                     ola = false;
                     break;
                 case 1:
                     Transportadoras t = ct.criarTransportadora(a, gestor);
-                    a.printMessage("Transportadora criada com sucesso!");
                     gestor.addTransportadora(t);
-                    
                     break;
                 case 2:
                     a.printTransportadoras(transportadoras);
@@ -214,18 +222,21 @@ public class Controlador {
 
         while(ola){
             a.printMenuComprar();
-            opcao = input.lerInteiro(a, "Introduza um número", 0, 6);
+            opcao = input.lerInteiro(a, "Introduza um número", 0, 3);
             switch(opcao){
                 case 1:
-                    a.printArtigosDisponiveis(artigosVenda);
+                    a.printArtigosDisponiveis(artigosVenda, login);
                     ce.addArtigo(a, artigosFinal, artigosVenda, login);
-
                     break;
                 case 2:
                     ce.removeArtigo(a, artigosFinal, login);
                     break;
                 case 3:
-                    
+                    Artigos artigo = artigosFinal.get(0);
+                    Transportadoras t = artigo.getTransportadora();
+                    Encomenda e = ce.criarEncomenda(gestor, artigosFinal, login, t);
+                    a.printMessage("Encomenda criada com sucesso!");
+                    gestor.addEncomenda(e);
                     break;
                 case 0:
                     ola = false;

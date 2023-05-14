@@ -5,12 +5,12 @@ import java.io.*;
 public class Estados {
 
     public void guardarEstado (String ficheiro, GestorVintage gestor) throws FileNotFoundException, IOException {
-        FileOutputStream fos = new FileOutputStream(ficheiro);
+        String path = "src/Files/" + ficheiro;
+        FileOutputStream fos = new FileOutputStream(path);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         oos.writeObject(gestor);
         oos.flush();
         oos.close();
-        fos.close();
     }
 
     public static GestorVintage carregarEstado (String ficheiro) throws FileNotFoundException, IOException, ClassNotFoundException {
@@ -18,7 +18,6 @@ public class Estados {
         ObjectInputStream ois = new ObjectInputStream(fis);
         GestorVintage c = (GestorVintage) ois.readObject();
         ois.close();
-        fis.close();
         return c;
     }
 

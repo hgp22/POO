@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import Model.Artigos;
+import Model.Login;
 import Model.Transportadoras;
 
 public class Apresentacao {
@@ -47,8 +48,8 @@ public class Apresentacao {
         this.prints.printMessage(message);
     }
 
-    public void printArtigosDisponiveis(List<Artigos> artigosDisponiveis) {
-        this.ap.printArtigosDisponiveis(artigosDisponiveis);
+    public void printArtigosDisponiveis(List<Artigos> artigosDisponiveis, Login login) {
+        this.ap.printArtigosDisponiveis(artigosDisponiveis, login);
     }
 
     public void printTransportadoras(Map <String, Transportadoras> transportadoras) {

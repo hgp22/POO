@@ -8,6 +8,7 @@ public class Utilizador extends Login{
     private String nome;
     private String morada;
     private int numeroFiscal;
+    private float faturado;
     private List<String> produtosComprados;
     private List<String> produtosVendidos;
     private List<String> produtosAVenda;
@@ -18,6 +19,7 @@ public class Utilizador extends Login{
         this.nome = "";
         this.morada = "";
         this.numeroFiscal = 0;
+        this.faturado = 0.0F;
         this.produtosComprados = null;
         this.produtosVendidos = null;
         this.produtosAVenda = null;
@@ -30,6 +32,7 @@ public class Utilizador extends Login{
         this.nome = nome;
         this.morada = morada;
         this.numeroFiscal = numeroFiscal;
+        this.faturado = 0.0F;
         this.produtosComprados = produtosComprados;
         this.produtosVendidos = produtosVendidos;
         this.produtosAVenda = produtosAVenda;
@@ -42,6 +45,7 @@ public class Utilizador extends Login{
         this.nome = u.getNome();
         this.morada = u.getMorada();
         this.numeroFiscal = u.getnumeroFiscal();
+        this.faturado = u.getFaturado();
         this.produtosComprados = u.getProdutosComprados();
         this.produtosVendidos = u.getProdutosVendidos();
         this.produtosAVenda = u.getProdutosAVenda();
@@ -103,6 +107,14 @@ public class Utilizador extends Login{
 
     public void setProdutosAVenda (List<String> produtosAVenda) {
         this.produtosAVenda = produtosAVenda;
+    }
+
+    public float getFaturado() {
+        return faturado;
+    }
+
+    public void setFaturado (float faturado) {
+        this.faturado = faturado;
     }
 
     public Utilizador clone() {

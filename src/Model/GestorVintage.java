@@ -3,20 +3,24 @@ package Model;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
+import static java.time.temporal.ChronoUnit.DAYS;
 
 import Model.Encomenda.dimensaoEncomenda;
+import Model.Encomenda.estadoEncomenda;
 
 public class GestorVintage implements Serializable {
     private Map<String, Utilizador> utilizadores;
     private Map<String, Transportadoras> transportadoras;
     private List<Artigos> artigosVenda; 
     private Map<Integer, Encomenda> encomendas;
+    private LocalDate data;
 
     public GestorVintage() {
         this.utilizadores = new HashMap<>();
         this.transportadoras = new HashMap<>();
         this.artigosVenda = new ArrayList<>();
-        this.encomendas = new HashMap<>();    
+        this.encomendas = new HashMap<>(); 
+        this.data = LocalDate.now();   
     }
 
     public GestorVintage(Map<String, Utilizador> utilizadores, Map<String, Transportadoras> transportadoras, List<Artigos> artigosVenda, Map<Integer, Encomenda> encomendas) {
@@ -24,13 +28,15 @@ public class GestorVintage implements Serializable {
         this.transportadoras = transportadoras;
         this.artigosVenda = artigosVenda;
         this.encomendas = encomendas;
+        this.data = LocalDate.now();
     }
 
     public GestorVintage(GestorVintage gestor, Login login) {
         this.utilizadores = gestor.getUtilizadores();
         this.transportadoras = gestor.getTransportadoras();
         this.artigosVenda = gestor.getArtigosVenda(login);
-        this.encomendas = gestor.getEncomendas();
+        this.encomendas = gestor.getEncomendas(login);
+        this.data = gestor.getData();
     }
 
     public Map<String, Utilizador> getUtilizadores() {
@@ -59,12 +65,18 @@ public class GestorVintage implements Serializable {
         return aux;
     }
 
-    public Map<Integer, Encomenda> getEncomendas() {
+    public Map<Integer, Encomenda> getEncomendas(Login login) {
         Map<Integer, Encomenda> aux = new HashMap<>();
         for (Map.Entry<Integer, Encomenda> entry : this.encomendas.entrySet()) {
-            aux.put(entry.getKey(), entry.getValue().clone());
+            if (entry.getValue().getComprador().getEmail() == login.getEmail()) {
+                aux.put(entry.getKey(), entry.getValue().clone());
+            }
         }
         return aux;
+    }
+
+    public LocalDate getData() {
+        return this.data;
     }
 
     /* nao sei se isto e preciso
@@ -97,13 +109,6 @@ public class GestorVintage implements Serializable {
     }
     */
     
-
-
-
-
-
-
-
     public void addUtilizador(Utilizador utilizador) {
         utilizadores.put(utilizador.getEmail(), utilizador);
     }
@@ -133,6 +138,10 @@ public class GestorVintage implements Serializable {
         encomendas.put(encomenda.getId(), encomenda);
     }
 
+    public boolean existeTransportadora(String nome) {
+        return transportadoras.containsKey(nome);
+    }
+
     // verificar se existe o utilizador
     public boolean existeUtilizador(String email, String password) {
         Utilizador us = utilizadores.get(email);
@@ -140,15 +149,6 @@ public class GestorVintage implements Serializable {
             return us.getPassword().equals(password);
         }    
         return false;
-    }
-    
-    // funcao para calcular o preco de expedicao
-
-
-    // funcao que percorre cada user e lista as malas que estao por vender
-    public List<Integer> listaMalasPorVender(Login login) {
-
-        return null;
     }
 
     public Transportadoras getTransportadora(String nome) {
@@ -165,7 +165,7 @@ public class GestorVintage implements Serializable {
         else return dimensaoEncomenda.GRANDE;
     }
 
-    public float precoFinal (List<Artigos> artigosFinal){
+    public float precoArtigos (List<Artigos> artigosFinal){
         float preco = 0;
         for (Artigos artigo : artigosFinal) {
             if (artigo instanceof Mala){
@@ -183,5 +183,89 @@ public class GestorVintage implements Serializable {
         }
         
         return preco;
+    }
+
+    public float precoArtigo (Artigos artigo){
+        float preco = 0;
+        if (artigo instanceof Mala){
+            Mala mala = (Mala) artigo;
+            preco += mala.precoMala();
+        }
+        else if (artigo instanceof Sapatilhas){
+            Sapatilhas sapatilhas = (Sapatilhas) artigo;
+            preco += sapatilhas.precoSapatilhas();
+        }
+        else if (artigo instanceof Tshirt){
+            Tshirt Tshirt = (Tshirt) artigo;
+            preco += Tshirt.precoTshirt();
+        }
+        return preco;
+    }
+
+    public float precoExpedicao(dimensaoEncomenda dimensao, Transportadoras transportadora) {
+        float precoBase = 0;
+        if(dimensao == dimensaoEncomenda.PEQUENA) precoBase = 2;
+        else if(dimensao == dimensaoEncomenda.MEDIA) precoBase = 5;
+        else if(dimensao == dimensaoEncomenda.GRANDE) precoBase = 10;
+        float precoExpedicao = precoBase * transportadora.getLucro() * (1+transportadora.getImposto());
+        return precoExpedicao;
+    }
+
+    public float precoTotal(float precoArtigos, float precoExpedicao) {
+        return precoArtigos + precoExpedicao;
+    }
+
+    public Encomenda criarEncomenda(List<Artigos> artigosFinal, Login login, Transportadoras transportadora) {
+        int tamanho = artigosFinal.size();
+        dimensaoEncomenda dimensao = dimensaoEncomenda(tamanho);
+        float precoArtigos = precoArtigos(artigosFinal);
+        float precoExpedicao = precoExpedicao(dimensao, transportadora);
+        estadoEncomenda estado = estadoEncomenda.PENDENTE;
+        LocalDate dataCompra = LocalDate.now();
+        float precoFinal = precoTotal(precoArtigos, precoExpedicao);
+        Utilizador comprador = getUtilizador(login.getEmail());
+
+        return new Encomenda(artigosFinal, dimensao, precoFinal, estado, dataCompra, comprador);
+    }
+
+    public void cancelarEncomenda(Encomenda encomenda, Login login) {
+        for (Map.Entry<Integer, Encomenda> entry : encomendas.entrySet()) {
+            if(entry.getValue().equals(encomenda)){
+                encomendas.remove(entry.getKey());
+            }
+        }
+    }
+
+    public void atualizaEstadoEncomenda(Map<Integer, Encomenda> encomendas, LocalDate data){
+        for (Map.Entry<Integer, Encomenda> entry : encomendas.entrySet()) {
+            if(DAYS.between(entry.getValue().getDataCompra(), data) > 3){
+                Encomenda encomenda = entry.getValue();
+                encomenda.setEstado(estadoEncomenda.FINALIZADA);
+                Transportadoras transportadora = encomenda.getArtigos().get(0).getTransportadora();
+                encomendaFinalizada(encomenda, encomenda.getArtigos(), transportadora);
+            }
+            else if (DAYS.between(entry.getValue().getDataCompra(), data) > 1){
+                entry.getValue().setEstado(estadoEncomenda.EXPEDIDA);
+            }
+            else{
+                entry.getValue().setEstado(estadoEncomenda.PENDENTE);
+            }
+        }
+    }
+
+    public void encomendaFinalizada(Encomenda encomenda, List<Artigos> artigosFinal, Transportadoras transportadora){
+        dimensaoEncomenda dimensao = encomenda.getDimensao();
+        float precoExpedicao = precoExpedicao(dimensao, transportadora);
+        for (Artigos artigo : artigosFinal) {
+            artigo.getVendedor().setFaturado(artigo.getVendedor().getFaturado() + precoArtigo(artigo));
+            artigo.getTransportadora().setFaturado(artigo.getTransportadora().getFaturado() + precoExpedicao);
+            getArtigosVenda(null).remove(artigo);
+        }
+    }
+
+    public GestorVintage avancarTempo (int dias){
+        this.data = data.plusDays(dias);
+        atualizaEstadoEncomenda(this.encomendas, this.data);
+        return this;
     }
 }

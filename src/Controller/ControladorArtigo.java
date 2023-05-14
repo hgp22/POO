@@ -3,7 +3,6 @@ package Controller;
 import java.time.LocalDate;
 import java.util.Map;
 
-import Model.Artigos;
 import Model.GestorVintage;
 import Model.Login;
 import Model.Mala;
@@ -12,7 +11,6 @@ import Model.Transportadoras;
 import Model.Tshirt;
 import Model.Utilizador;
 import View.Apresentacao;
-import View.Prints;
 
 public class ControladorArtigo {
     private Input input;
@@ -44,6 +42,10 @@ public class ControladorArtigo {
         Tshirt.Padrao padrao = Tshirt.Padrao.valueOf(padrao1);
         a.printTransportadoras(transportadoras);
         String transportadora1 = this.input.lerString(a, "Insira a transportadora da tshirt: ");
+        if (gestor.existeTransportadora(transportadora1) == false){
+            a.printMessage("A transportadora que inseriu nao existe!");
+            transportadora1 = this.input.lerString(a, "Insira a transportadora da tshirt: ");
+        }
         Transportadoras transportadora = transportadoras.get(transportadora1);
         Utilizador vendedor = gestor.getUtilizadores().get(login.getEmail());
         
@@ -63,7 +65,7 @@ public class ControladorArtigo {
         float profundidade = this.input.lerFloat(a, "Insira a profundidade da mala: ", 0, 1000000000);
         String material = this.input.lerString(a, "Insira o material da mala: ");
         String descricao = this.input.lerString(a, "Insira a descricao da mala: ");
-        int anoColecao = this.input.lerInteiro(a, "Insira o ano da colecao da mala: ", 0, 1000000000);
+        LocalDate anoColecao = this.input.lerData(a, "Insira o ano da colecao da mala: ");
         String tipo = this.input.lerString(a, "Insira o tipo da mala [REGULAR, PREMIUM]: ");
         Mala.TipoMala tipoMala = Mala.TipoMala.valueOf(tipo);
         int novoUsado = this.input.lerInteiro(a, "Insira o estado da mala [0-NOVO, 1-USADO]: ", 0, 2);
@@ -77,6 +79,10 @@ public class ControladorArtigo {
         float desconto = this.input.lerFloat(a, "Insira o desconto da mala: ", 0, 1000000000);
         a.printTransportadoras(transportadoras);
         String transportadora1 = this.input.lerString(a, "Insira a transportadora da tshirt: ");
+        if (gestor.existeTransportadora(transportadora1) == false){
+            a.printMessage("A transportadora que inseriu nao existe!");
+            transportadora1 = this.input.lerString(a, "Insira a transportadora da tshirt: ");
+        }
         Transportadoras transportadora = transportadoras.get(transportadora1);
         Utilizador vendedor = gestor.getUtilizadores().get(login.getEmail());
 
@@ -108,11 +114,13 @@ public class ControladorArtigo {
         LocalDate dataLancamento = this.input.lerData(a, "Insira a data de lancamento das sapatilhas: ");
         a.printTransportadoras(transportadoras);
         String transportadora1 = this.input.lerString(a, "Insira a transportadora da tshirt: ");
+        if (gestor.existeTransportadora(transportadora1) == false){
+            a.printMessage("A transportadora que inseriu nao existe!");
+            transportadora1 = this.input.lerString(a, "Insira a transportadora da tshirt: ");
+        }
         Transportadoras transportadora = transportadoras.get(transportadora1);
         Utilizador vendedor = gestor.getUtilizadores().get(login.getEmail());
         
-
-
         return new Sapatilhas(descricao, marca, codigo, precoBase, desconto, novoUsado, estado, numDonos, transportadora, vendedor, tamanho, atacadores, cor, dataLancamento, tipoSapatilhas);   
     }
     

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import Model.Artigos;
+import Model.Login;
 import Model.Transportadoras;
 
 public class ApresentacaoMenu {
@@ -51,10 +52,21 @@ public class ApresentacaoMenu {
         this.prints.printMenu(new String[]{"Criar Nova Transportadora", "Ver Transportadoras"}, "         MENU TRANSPORTADORA", 0);
     }
 
-    public void printArtigosDisponiveis(List<Artigos> artigosDisponiveis) {
+    public void printArtigosDisponiveis(List<Artigos> artigosDisponiveis, Login login) {
         System.out.println("Artigos disponiveis:");
+        int indice = 0;
+        int flag = 0; // 0 mostra todos os artigos, 1 mostra apenas artigos da mesma transportadora
         for (int i = 0; i < artigosDisponiveis.size(); i++) {
-            System.out.println(i + " - " + artigosDisponiveis.get(i));
+            if (!(artigosDisponiveis.get(i).getVendedor().getEmail().equals(login.getEmail())) && flag == 0){
+                System.out.println(indice + " - " + artigosDisponiveis.get(i));
+                indice++;
+            }
+            else if (!(artigosDisponiveis.get(i).getVendedor().getEmail().equals(login.getEmail())) && flag == 1){
+                if (artigosDisponiveis.get(i).getTransportadora().equals(artigosDisponiveis.get(0).getTransportadora())){
+                    System.out.println(indice + " - " + artigosDisponiveis.get(i));
+                    indice++;
+                }
+            }
         }
     }
 

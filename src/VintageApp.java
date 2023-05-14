@@ -1,11 +1,10 @@
+import Model.*;
+import Controller.*;
 import View.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import Controller.*;
-import Model.*;
-import View.*;
 
 public class VintageApp {
     public static void main(String[] args) throws FileNotFoundException, IOException, ClassNotFoundException, VintageException {
@@ -13,7 +12,7 @@ public class VintageApp {
         Apresentacao viewer = new Apresentacao();
         Controlador controlador = new Controlador();
         
-        controlador.controlador(viewer, gestor);
+        controlador.controlador(gestor, viewer);
     
     }
 }

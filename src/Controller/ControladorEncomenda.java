@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import Model.*;
 import Model.Encomenda.dimensaoEncomenda;
+import Model.Encomenda.estadoEncomenda;
 import View.*;
 
 public class ControladorEncomenda {
@@ -54,15 +55,14 @@ public class ControladorEncomenda {
         return artigosFinal;
     }
 
-    public Encomenda criarEncomenda(GestorVintage gestor, Apresentacao a, List<Artigos> artigosFinal, Login login) {
-        int tamanho = artigosFinal.size();
-        dimensaoEncomenda dimensao = gestor.dimensaoEncomenda(tamanho);
-        LocalDate data = LocalDate.now();
-        float preco = gestor.precoFinal(artigosFinal);
-
-
-        
+    public Encomenda criarEncomenda(GestorVintage gestor, List<Artigos> artigosFinal, Login login, Transportadoras transportadora) {
+        Encomenda encomenda = gestor.criarEncomenda(artigosFinal, login, transportadora);
         return encomenda;
     }
+
+    public void cancelarEncomenda(GestorVintage gestor, Encomenda encomenda, Login login) {
+        gestor.cancelarEncomenda(encomenda, login);
+    }
+
 
 }

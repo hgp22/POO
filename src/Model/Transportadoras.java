@@ -3,21 +3,24 @@ package Model;
 public class Transportadoras {
     private String nome;
     private boolean transportaPremium; //nao sei se isto é preciso
-    private float precoBase;
     private float imposto;
     private float lucro;
+    private float faturado;
     
     public Transportadoras(){
         this.nome = "";
         this.transportaPremium = false;
         this.imposto = 0.3F;
         this.lucro = 0.0F;
+        this.faturado = 0.0F;
     }
 
     public Transportadoras(String nome, boolean transportaPremium, float lucro) {
         this.nome = nome;
         this.transportaPremium = transportaPremium;
+        this.imposto = 0.3F;
         this.lucro = lucro;
+        this.faturado = 0.0F;
     }
 
     public Transportadoras(Transportadoras transportadora) {
@@ -25,6 +28,7 @@ public class Transportadoras {
         this.transportaPremium = transportadora.getTransportaPremium();
         this.imposto = transportadora.getImposto();
         this.lucro = transportadora.getLucro();
+        this.faturado = transportadora.getFaturado();
     }
 
     public String getNome() {
@@ -58,6 +62,14 @@ public class Transportadoras {
 
     public void setLucro(float lucro) {
         this.lucro = lucro;
+    }
+
+    public float getFaturado() {
+        return faturado;
+    }
+
+    public void setFaturado(float faturado) {
+        this.faturado = faturado;
     }
 
     public Transportadoras clone(){
