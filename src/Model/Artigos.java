@@ -42,6 +42,7 @@ public class Artigos implements Serializable {
         this.estado = estado;
         this.numDonos = numDonos;
         this.transportadora = transportadora;
+        this.vendedor = vendedor;
     }
 
     public Artigos (Artigos artigo) {

@@ -79,7 +79,7 @@ public class ControladorArtigo {
         float desconto = this.input.lerFloat(a, "Insira o desconto da mala: ", 0, 1000000000);
         a.printTransportadoras(transportadoras);
         String transportadora1 = this.input.lerString(a, "Insira a transportadora da tshirt: ");
-        if (gestor.existeTransportadora(transportadora1) == false){
+        while (gestor.existeTransportadora(transportadora1) == false){
             a.printMessage("A transportadora que inseriu nao existe!");
             transportadora1 = this.input.lerString(a, "Insira a transportadora da tshirt: ");
         }

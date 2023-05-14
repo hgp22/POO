@@ -1,6 +1,8 @@
 package Model;
 
-public class Transportadoras {
+import java.io.Serializable;
+
+public class Transportadoras implements Serializable {
     private String nome;
     private boolean transportaPremium; //nao sei se isto é preciso
     private float imposto;

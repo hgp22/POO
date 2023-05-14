@@ -5,8 +5,7 @@ import java.io.*;
 public class Estados {
 
     public void guardarEstado (String ficheiro, GestorVintage gestor) throws FileNotFoundException, IOException {
-        String path = "src/Files/" + ficheiro;
-        FileOutputStream fos = new FileOutputStream(path);
+        FileOutputStream fos = new FileOutputStream(ficheiro);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         oos.writeObject(gestor);
         oos.flush();

@@ -19,6 +19,10 @@ public class ControladorEncomenda {
         Artigos artigo = new Artigos();
         int opcao = -1;
         boolean ola = true;
+        if (artigosDisponiveis.isEmpty()) {
+            a.printMessage("Não existem artigos disponíveis");
+            return artigosFinal;
+        }
         while (ola != false) {
             opcao = input.lerInteiro(a, "Introduza o artigo a adicionar", 0, 999999999);
             artigo = artigosDisponiveis.get(opcao);
@@ -41,6 +45,10 @@ public class ControladorEncomenda {
         Artigos artigo = new Artigos();
         int opcao;
         boolean ola = true;
+        if (artigosFinal.isEmpty()) {
+            a.printMessage("Não existem artigos no carrinho");
+            return artigosFinal;
+        }
         while (ola) {
             opcao = input.lerInteiro(a, "Introduza o artigo a remover", 0, 999999999);
             artigo = artigosFinal.get(opcao);

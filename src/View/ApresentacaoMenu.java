@@ -58,12 +58,12 @@ public class ApresentacaoMenu {
         int flag = 0; // 0 mostra todos os artigos, 1 mostra apenas artigos da mesma transportadora
         for (int i = 0; i < artigosDisponiveis.size(); i++) {
             if (!(artigosDisponiveis.get(i).getVendedor().getEmail().equals(login.getEmail())) && flag == 0){
-                System.out.println(indice + " - " + artigosDisponiveis.get(i));
+                System.out.println(indice + " - " + artigosDisponiveis.get(indice));
                 indice++;
             }
             else if (!(artigosDisponiveis.get(i).getVendedor().getEmail().equals(login.getEmail())) && flag == 1){
                 if (artigosDisponiveis.get(i).getTransportadora().equals(artigosDisponiveis.get(0).getTransportadora())){
-                    System.out.println(indice + " - " + artigosDisponiveis.get(i));
+                    System.out.println(indice + " - " + artigosDisponiveis.get(indice));
                     indice++;
                 }
             }
