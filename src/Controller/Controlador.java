@@ -109,6 +109,7 @@ public class Controlador {
                 // sair da aplicacao
                     ola = false;
                     a.printMessage("Até à próxima!");
+                    System.exit(0);
                     break;
                 default:
                     a.printMessage("Opção inválida");
@@ -142,7 +143,6 @@ public class Controlador {
                     break;
                 case 0:
                     ola = false;
-                    //a.printMenuInicial();
                     break;
                 default:
                     a.printMessage("Opção inválida");

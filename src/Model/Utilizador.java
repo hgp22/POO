@@ -1,7 +1,5 @@
 package Model;
 
-import java.util.List;
-
 public class Utilizador extends Login{
     private static int idCounter = 0;
     private int id;

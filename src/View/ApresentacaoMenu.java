@@ -76,8 +76,8 @@ public class ApresentacaoMenu {
 
     public void printTransportadoras(Map <String, Transportadoras> transportadoras) {
         System.out.println("Transportadoras disponiveis:");
-        for (String s : transportadoras.keySet()) {
-            System.out.println(s);
+        for (Transportadoras t : transportadoras.values()) {
+            System.out.println(t.getNome() + " -> Lucro: " + t.getLucro());
         }
     }
     
