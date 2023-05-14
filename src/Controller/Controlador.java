@@ -255,7 +255,6 @@ public class Controlador {
         boolean ola = true;
         int opcao;
         Map<Integer, Encomenda> encomendas = gestor.getEncomendas();
-        Map<String, Utilizador> utilizadores = gestor.getUtilizadores();
         Map<String, Transportadoras> transportadoras = gestor.getTransportadoras();
 
         while(ola){
@@ -271,7 +270,7 @@ public class Controlador {
                     a.printMessage("A transportadora com maior volume de faturação é " + ct.maiorVolume(transportadoras).getNome() + " com um total de " + ct.maiorVolume(transportadoras).getVolumeFaturado() + " produtos vendidos");
                     break;
                 case 3:
-                    cu.utlizadorVendas(gestor, a);
+                    cu.utilizadorVendas(gestor, a);
                     break;
                 case 4:
                     // ordenar maiores compradores

@@ -43,6 +43,7 @@ public class ControladorUser {
             return null;
         } else {
             a.printMessage("Utilizador registado com sucesso!");
+            this.login = true;
             return new Utilizador(email, password, nome, morada, nif, produtosComprados, produtosVendidos, produtosAVenda);
         }
     }
@@ -51,7 +52,7 @@ public class ControladorUser {
         this.login = false;
     }
 
-    public void utlizadorVendas(GestorVintage gestor, Apresentacao a){    
+    public void utilizadorVendas(GestorVintage gestor, Apresentacao a){    
         String email = input.lerString(a, "Introduza o email do utilizador");
         Utilizador u = gestor.getUtilizador(email);
         if (u != null){
