@@ -28,9 +28,6 @@ public class ControladorUser {
     }
 
     public Utilizador registarUtilizador(GestorVintage gestor, Apresentacao a){
-        List<String> produtosComprados = new ArrayList<>();
-        List<String> produtosVendidos = new ArrayList<>();
-        List<String> produtosAVenda = new ArrayList<>();
         a.printMessage("---------------  REGISTAR  ---------------");
         String email = this.input.lerString(a, "Insira o seu email: ");
         String password = this.input.lerString(a, "Insira a sua password: ");
@@ -44,7 +41,7 @@ public class ControladorUser {
         } else {
             a.printMessage("Utilizador registado com sucesso!");
             this.login = true;
-            return new Utilizador(email, password, nome, morada, nif, produtosComprados, produtosVendidos, produtosAVenda);
+            return new Utilizador(email, password, nome, morada, nif);
         }
     }
     
