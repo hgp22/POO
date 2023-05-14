@@ -56,6 +56,7 @@ public class ControladorUser {
         String email = input.lerString(a, "Introduza o email do utilizador");
         Utilizador u = gestor.getUtilizador(email);
         if (u != null){
+            a.printMessage(email + " vendeu os seguintes artigos:");
             List<Artigos> artigos = gestor.artigosVendidosUtilizador(u);
             for(Artigos artigo : artigos){
                 artigo.toString();

@@ -71,7 +71,7 @@ public class ApresentacaoMenu {
     }
 
     public void printMenuEstatisticas(){
-        this.prints.printMenu(new String[]{"Top Vendedor", "Top Transportadora", "As minhas encomendas vendidas", "Top Compradores/Vendedores", "Todo o dinheiro feito pela Vintage"}, "          MENU ESTATISTICAS", 0);
+        this.prints.printMenu(new String[]{"Top Vendedor", "Top Transportadora", "Artigos vendidos por um utilizador", "Top Compradores/Vendedores", "Todo o dinheiro feito pela Vintage"}, "          MENU ESTATISTICAS", 0);
     }
 
     public void printTransportadoras(Map <String, Transportadoras> transportadoras) {
